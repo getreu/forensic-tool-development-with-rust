@@ -1,0 +1,8 @@
+#!/bin/sh
+mkdir -p build/pdf
+cp -r source/* build/pdf
+
+cd build/pdf
+xelatex forensic-tool-development-with-rust.tex \
+# && mupdf forensic-tool-development-with-rust.pdf
+
