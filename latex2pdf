@@ -1,8 +1,17 @@
 #!/bin/sh
-mkdir -p build/pdf
-cp -r source/* build/pdf
+render () {
 
-cd build/pdf
-xelatex forensic-tool-development-with-rust.tex \
-# && mupdf forensic-tool-development-with-rust.pdf
+   TexBase=$(basename "$1" ".tex")
+   mkdir -p build/pdf
+   cp -r source/* build/pdf
 
+   cd build/pdf
+   xelatex "$2" "$TexBase.tex"  
+   bibtex "$TexBase" 
+   xelatex "$2" "$TexBase.tex"  
+   xelatex "$2"  "$TexBase.tex"  
+   #mupdf "$TexBase.pdf"
+}
+   
+#render "forensic-tool-development-with-rust.tex" "-interaction=batchmode"
+render "forensic-tool-development-with-rust.tex" 
