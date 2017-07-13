@@ -1,3 +1,5 @@
-build/*
+/build/*
+!/build/pdf/forensic-tool-development-with-rust.pdf
+
 *.swp
 *.cache
