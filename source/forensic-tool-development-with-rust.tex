@@ -313,7 +313,7 @@ file chosen as test case.
 
 \begin{figure}[htbp]
    \centering
-   \includegraphics[width=0.80000\textwidth]{images/test_case_encoding-input.png}
+   \includegraphics[width=0.450000\textwidth]{images/test_case_encoding-input.png}
    \caption{Test case international character encodings}
    \label{fig:test-international-character-encodings}
 \end{figure}
@@ -340,15 +340,9 @@ script shown in Figure \ref{lst:test-case-preparation}.
 In order to observe \emph{GNU-strings} Unicode detection capabilities, all the
 above test-files are searched for valid graphic strings with the command
 \texttt{strings} using all possible variation of its encoding filter.  The
-Figures \ref{fig:strings-e-capitals} and \ref{fig:strings-e-l} and show
-\emph{GNU-strings} output for 2 encodings as an example.
-
-\begin{figure}[htbp]                                                             
-\centering                                                                       
-\includegraphics[width=0.80000\textwidth]{images/strings_-e_S.png}               
-\caption{GNU-strings, single-8-bit option}                                       
-\label{fig:strings-e-capitals}
-\end{figure}  
+\ref{fig:strings-e-l} shows \emph{GNU-strings} output for an UTF-16 little
+endian encoded input as an example.
+ 
 
 \begin{figure}[htbp]
 \centering
@@ -358,24 +352,20 @@ Figures \ref{fig:strings-e-capitals} and \ref{fig:strings-e-l} and show
 \end{figure}
 
 
-\noindent
-\textbf{Results:} As shown in the Figure \ref{fig:strings-e-capitals},
-the encoding filter \texttt{-e\ S} is the only filter that finds
-international characters at all.
-\emph{UTF-8} is the only encoding in which \emph{GNU strings} is able to
-find international characters.
-The Figure \ref{fig:strings-e-l}, chosen as an example, confirms that with
-\emph{UTF-16} no international characters are recognized. The same holds true
-for \emph{UTF-32} and most other encodings: This limitation is of particular
-importance in forensic investigations: The Microsoft-Windows operating system
-handles Unicode characters in memory as 2 byte \emph{UTF-16} words. As a result
-when dealing with Microsoft-Windows memory images, \emph{GNU-strings} is not
-able to detect any international characters!
-It should not be forgotten that \emph{GNU-strings} can not analyse multi-byte
-encodings in general. This is why other very common encodings e.g. \emph{big5}
-or \emph{koi8-r} were not tested even though they are widely used. The
-above-outlined limitations led to \emph{Strings­ext}'s main requirement: 
-\emph{character encoding support}.
+\noindent 
+\textbf{Results:} \emph{UTF-8} is the only encoding in which \emph{GNU
+strings} is able to find international characters.  The Figure
+\ref{fig:strings-e-l}, chosen as an example, confirms that with \emph{UTF-16} no
+international characters are recognized. The same holds true for \emph{UTF-32}
+and most other encodings: This limitation is of particular importance in
+forensic investigations: The Microsoft-Windows operating system handles Unicode
+characters in memory as 2 byte \emph{UTF-16} words. As a result when dealing
+with Microsoft-Windows memory images, \emph{GNU-strings} is not able to detect
+any international characters!  It should not be forgotten that
+\emph{GNU-strings} can not analyse multi-byte encodings in general. This is why
+other very common encodings e.g. \emph{big5} or \emph{koi8-r} were not tested
+even though they are widely used. The above-outlined limitations led to
+\emph{Strings­ext}'s main requirement: \emph{character encoding support}.
 
 
 \subsection{Secure coding}\label{security2}
