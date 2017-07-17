@@ -56,19 +56,19 @@ Department of Computer Science
 
 \maketitle
 
-\begin{abstract} 
-Within the framework of this study the suitability of 
-the \emph{Rust} ecosystem for forensic tool development was evaluated. 
-As case study, the tool \emph{Strings­ext}\cite{getreu2016a} was 
-developed. Starting from analysing the specific requirements of 
-forensic software in general and those of the present case study, all 
-stages of the software development life-cycle have been executed, up to 
-the first production release. \emph{Strings­ext} is a reimplementation 
-and enhancement of the \emph{GNU-strings} tool, a widely used program 
-in forensic investigations. \emph{Strings­ext} recognizes Cyrillic, 
-CJKV characters and other scripts in all supported multi-byte-encodings 
-while \emph{GNU-strings} fails in finding these in UTF-16 and other 
-encodings.
+\begin{abstract}
+
+Within the framework of this study the suitability of the \emph{Rust} ecosystem
+for forensic tool development is evaluated.  The development of a forensic
+tool named \emph{Strings­ext}\cite{getreu2016a}\cite{getreu2017} serves as a
+case study.  Starting from analysing the specific requirements of forensic
+software in general and those of the present case study, all stages of the
+software development life-cycle have been executed, up to the first
+production release.  \emph{Strings­ext} is a reimplementation and
+enhancement of the \emph{GNU-strings} tool, a widely used program in
+forensic investigations.  \emph{Strings­ext} recognizes Cyrillic, CJKV
+characters and other scripts in all supported multi-byte-encodings while
+\emph{GNU-strings} fails in finding these in UTF-16 and other encodings.
 
 During the case study it has become apparent that the \emph{Rust}
 ecosystem provides good support for secure coding principles and unit
@@ -78,8 +78,9 @@ of the resulting \emph{Strings­ext} binaries comparable to the original
 \end{abstract}
 
 
-\section{Tool Requirements in Digital Forensics}
-\label{sec:tool-requirements}
+
+
+\section{Introduction}
 
 
 Most human interaction with electronic devices leaves traces in some electronic
@@ -88,15 +89,12 @@ additional traces may also be found in all intermediate (network) devices. Due
 to the cross-linked nature of computer systems the total amount of data that
 needs to be taken into consideration when investigating a crime is enormous. In
 this ocean of information the investigator has to find specific drops of
-information constituting digital evidences. As an analogy, imagine someone
-throws a stone in the sea. It will change the state of the water particles in
-various places, but only a tiny share of this change is suitable to prove that
-the stone was indeed thrown in water.
+information constituting digital evidences. 
 
-In the domain of digital forensics an observation of a well
-known cause-effect-relationship between an electronic trace (effect) and what
-has happened (cause) is an called \textbf{artefact}. It embodies any ``item of
-interest that help an investigation move forward.''
+In the domain of digital forensics an observation of a well-known
+cause-effect-relationship between an electronic trace (effect) and what has
+happened (cause) is a so called \textbf{artefact}. It embodies any ``item of
+interest that helps an investigation move forward.'' \footnote{
 \cite[125]{harichandran2016}. A more formal definition named \emph{Curated
 (digital) Forensic Artefact (CuFA)} proposed in \cite[131]{harichandran2016}
 embraces that it must:
@@ -115,6 +113,7 @@ embraces that it must:
 \item
   be exceptional (based on accident, rarity, or personal interest).
 \end{itemize}
+}
 
 Forensic examiners - the law enforcement personnel who deal with 
 digital evidence - face inter alia two challenges: to collect and to 
@@ -131,7 +130,10 @@ in this present work is made for this purpose: The new development is designed
 to overcome some of \emph{GNU-strings} shortcomings. Where possible, it
 maintains \emph{GNU-strings'} user-interface.
 
-\subsection{Tool validation}
+\section{Tool Requirements in Digital Forensics}
+\label{sec:tool-requirements}
+
+\subsection{Multi-byte character encoding support}
 \label{subsec:tool-validation}
 
 Like in other established forensic disciplines the forensic soundness or
@@ -164,20 +166,20 @@ device is suitable or not to execute the above method reliably, is
 called \emph{verification}.
 
 One way of establishing a set of requirements for a new forensic tool is to
-analyse how they are verified. Beckett and Slay \cite{beckett2007} suggest a
-model so called \emph{Model of tool neutral testing} or \emph{functionality
-oriented validation}. Instead of testing if a software product meets all its
-requirements, an independent set of forensic functions and their specifications
-is defined. This allows to decouple the validation procedure from the
-implementation of the forensic tool itself. A forensic function is an activity
-required in forensic investigation that produces known valid results for a given
-set of test cases.  For example, Figure \ref{the-search-target-mapping}
-\cite[17]{beckett2007} shows the search target mapping, a property of the
-general \emph{search function}. The subcategory ``Character encoding''
-illustrates the main deficit of \emph{GNU-strings} as it supports only ASCII
-encoding. In global cyberspace, forensic tools must identify a multitude of
-encodings. This leads us to the main motivation and requirement of
-\emph{Strings­ext}: \emph{character encoding support}.
+analyse how similar tools are verified. Beckett and Slay \cite{beckett2007}
+suggest a model so called \emph{Model of tool neutral testing} or
+\emph{functionality oriented validation}. Instead of testing if a software
+product meets all its requirements, an independent set of forensic functions and
+their specifications is defined. This allows to decouple the validation
+procedure from the implementation of the forensic tool itself. A forensic
+function is an activity required in forensic investigation that produces known
+valid results for a given set of test cases.  For example, Figure
+\ref{the-search-target-mapping} \cite[17]{beckett2007} shows the search target
+mapping, a property of the general \emph{search function}. The subcategory
+``Character encoding'' illustrates the main deficit of \emph{GNU-strings} as it
+supports only ASCII encoding. In global cyberspace, forensic tools must identify
+a multitude of encodings. This leads us to the main motivation and requirement
+of \emph{Strings­ext}: \emph{multibyte character encoding support}.
 
 \begin{figure}[htbp]
 \centering
@@ -190,12 +192,14 @@ The \emph{functionality oriented validation} can be classified as ``black box
 testing'' examining functionality without any knowledge of internal
 implementation, without seeing the source code. ``Black box testing'' of
 functions and their specifications allows conducting numerous tests with
-acceptable costs. It requires test cases with known valid results. With
+acceptable costs. This requires test cases with known valid results. With
 \emph{Strings­ext} this approach is used to test the correctness of the
 implementation when dealing with large real-world data.
-In addition Rust's build in test harness \emph{unit tests} in conjunction
-with the \emph{test driven development} method was chosen for the
+In addition, Rust's build in test harness \emph{unit tests} in conjunction
+with the \emph{test driven development} method is chosen for the
 \emph{Stringsext} project.
+
+
 
 \subsection{Security}
 \label{subsec:security1}
@@ -203,34 +207,34 @@ with the \emph{test driven development} method was chosen for the
 The relation between the criminal and the forensic examiner can be described as
 follows: ``Make it hard for them to find you and impossible for them to prove
 they found you'' \cite{berinato2007}. Have your recognised the statement? Is
-widely cited when it comes to define anti-forensics. This traditional "hide and
-seek" relation might soon take a new dimension: Eggendorfer
+widely cited when it comes to define anti-forensics. This traditional 
+"hide-and-seek" relation might soon take a new dimension: Eggendorfer
 \cite{eggendorfer2016} stresses with good reasons that forensic tools are
 software too and therefor vulnerable to attacks. A vulnerability found in 2017
-in a common forensic tool \emph{EnCase Forensic Imager} shows the pertinence of
-the risk \cite{secconsult2017}: 
+in a common forensic tool \emph{EnCase Forensic Imager} demonstrates exemplary
+the pertinence of the risk \cite{secconsult2017}: 
 
 \begin{quote}
-    \emph{By writing a manipulated LVM2 partition (a hard disk format commonly used
-    for Linux servers) on a storage device, an attacker could - if the device
-    were ever to be analysed using EnCase Forensic Imager - take over an
+    \emph{By writing a manipulated LVM2 partition (a hard disk format commonly
+    used for Linux servers) on a storage device, an attacker could - if the
+    device were ever to be analysed using EnCase Forensic Imager - take over an
     investigator's machine. When the investigator tries to read the device,
     EnCase Forensic Imager crashes - unbeknownst to the investigator, however, a
     lot more is happening. Through a buffer overflow security flaw, EnCase
     Forensic Imager can be tricked into executing data read from the storage
     device. Afterwards the code provided by the attacker has full control of the
-    investigator's machine and can be used by the suspect to manipulate
-    evidence \cite{secconsult2017}.}
+    investigator's machine and can be used by the suspect to manipulate evidence
+    \cite{secconsult2017}.}
 \end{quote}
 
 Confronted with this vulnerability report, the vendor downgraded the issue: "The
 exploit SEC Consult claims to have found is an extreme edge case, much like the
-theoretical alerts they tried to promote in November. [..] We do not consider
+theoretical alerts they tried to promote in November. [...] We do not consider
 this claim to be serious and it will not impact the performance of our
 products \cite{secconsult2017}." For the user it remains unclear if and when the 
 vulnerability gets fixed. While such a reaction would have been inconceivable
 in other software domains, the risk of forensic tool exploitation is
-still largely neglected despite of its potential impact:
+still largely neglected despite its potential impact:
 
 \begin{itemize} 
 
@@ -241,49 +245,38 @@ still largely neglected despite of its potential impact:
 
 \end{itemize}
 
+\emph{GNU strings} addresses this risk with the programming language
+Rust. Rust offers some outstanding security guarantees which are presented
+in Section \ref{rust-lang}.
 
 
 \subsection{Code efficiency}
 \label{subsec:code-efficiency}
 
-The searching domain in forensic investigations is often as large as the
-seized data-carrier. Nowadays hard-disk images hold several TiB of data.
-Memory images of the RAM are smaller, but still some GiB in size. In
-order to address so big search domains, forensic software must operate
-very efficiently. This is why forensic software is often programmed in C
-or C++. But not only the programming language matters: Efficient code
-requires carefully chosen abstractions, efficient algorithms avoiding
-unnecessary data-copies and program-loops. Applied to \emph{Strings­ext}
-the following is required:
-
-\par\noindent
-The programming language should
+The searching domain in forensic investigations is often as large as the seized
+data-carrier. Nowadays hard-disk images hold several TiB of data.  Memory images
+of the RAM are smaller, but still some GiB in size. In order to address so big
+search domains, forensic software must operate very efficiently. This is why
+forensic software is often programmed in C or C++. But not only the programming
+language matters: Efficient code requires carefully chosen abstractions,
+efficient algorithms avoiding unnecessary data-copies and program-loops.
+Concerning the choice of the programming language we define the following
+requirements. The programming language 
 
 \begin{itemize}
 \item
-  allow a fine control over pointers and memory allocation,
+  allows a fine control over pointers and memory allocation,
 \item
-  offer zero cost abstractions,
+  offers zero cost abstractions,
 \item
-  no or minimal runtime.
+  has no or minimal runtime.
 \end{itemize}
 
-\noindent
-Programming style and techniques should promote \emph{efficient coding}
-by
-
-\begin{itemize}
-\item
-  avoiding as much as possible copying the input data,
-\item
-  carefully chosen abstractions,
-\item
-  efficient algorithms avoiding unnecessary data-copies and program-loops
-\end{itemize}
 
 \noindent
 The above motivates the choice of developing \emph{Stringsext} with Rust.
-
+Chapter \ref{rust-lang} expends on how Rust meets these requirements by its
+\emph{memory safety} guarantees and \emph{zero cost} design goal. 
 
 
 \section{\emph{GNU-strings}' shortcomings in forensics}
@@ -313,59 +306,42 @@ file chosen as test case.
 
 \begin{figure}[htbp]
    \centering
-   \includegraphics[width=0.450000\textwidth]{images/test_case_encoding-input.png}
+   \includegraphics[height=0.20000\textwidth]{images/test_case_encoding-input.png}
    \caption{Test case international character encodings}
    \label{fig:test-international-character-encodings}
 \end{figure}
 
-The above file is then is converted into different encodings using the
-script shown in Figure \ref{lst:test-case-preparation}.
-
-
-\begin{figure}[htbp]
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#!/bin/sh}
-\FunctionTok{cp} \NormalTok{orig.txt encoded-utf8.txt}
-\ExtensionTok{iconv} \NormalTok{-f utf8 -t utf16le orig.txt }\OperatorTok{>}\NormalTok{encoded-utf16le.txt}
-\ExtensionTok{iconv} \NormalTok{-f utf8 -t utf32le orig.txt }\OperatorTok{>}\NormalTok{encoded-utf32le.txt}
-\ExtensionTok{iconv} \NormalTok{-f utf8 -t utf16be orig.txt }\OperatorTok{>}\NormalTok{encoded-utf16be.txt}
-\ExtensionTok{iconv} \NormalTok{-f utf8 -t utf32be orig.txt }\OperatorTok{>}\NormalTok{encoded-utf32be.txt}
-\end{Highlighting}
-\end{Shaded}
-\caption{Test case preparation}
-\label{lst:test-case-preparation}
-\end{figure}
-
-In order to observe \emph{GNU-strings} Unicode detection capabilities, all the
-above test-files are searched for valid graphic strings with the command
-\texttt{strings} using all possible variation of its encoding filter.  The
-\ref{fig:strings-e-l} shows \emph{GNU-strings} output for an UTF-16 little
-endian encoded input as an example.
+The above file is then is converted into \texttt{UTF-8}, \texttt{UTF-16LE},
+\texttt{UTF-16BE}, \texttt{UTF-32LE} and \texttt{UTF-32BE}, in each case one
+encoding per file.  In order to observe \emph{GNU-strings} Unicode detection
+capabilities, all the test-files are then searched for valid graphic strings
+with the command \texttt{strings} using all possible variation of its encoding
+filter.  The Figure \ref{fig:strings-e-l} shows \emph{GNU-strings} output for an
+UTF-16 little endian encoded input as an example.
  
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.80000\textwidth]{images/strings_-e_l.png}
-\caption{GNU-strings, 16-bit little-endian option}
+\includegraphics[height=0.20000\textwidth]{images/strings_-e_l.png}
+\caption{GNU-strings with UTF-16LE encoded input}
 \label{fig:strings-e-l}
 \end{figure}
 
 
-\noindent 
-\textbf{Results:} \emph{UTF-8} is the only encoding in which \emph{GNU
+\noindent \textbf{Results:} \texttt{UTF-8} is the only encoding in which \emph{GNU
 strings} is able to find international characters.  The Figure
-\ref{fig:strings-e-l}, chosen as an example, confirms that with \emph{UTF-16} no
-international characters are recognized. The same holds true for \emph{UTF-32}
+\ref{fig:strings-e-l}, chosen as an example, shows that with \texttt{UTF-16} no
+international characters are recognized. The same holds true for \texttt{UTF-32}
 and most other encodings: This limitation is of particular importance in
 forensic investigations: The Microsoft-Windows operating system handles Unicode
-characters in memory as 2 byte \emph{UTF-16} words. As a result when dealing
+characters in memory as 2 byte \texttt{UTF-16} words. As a result when dealing
 with Microsoft-Windows memory images, \emph{GNU-strings} is not able to detect
 any international characters!  It should not be forgotten that
-\emph{GNU-strings} can not analyse multi-byte encodings in general. This is why
-other very common encodings e.g. \emph{big5} or \emph{koi8-r} were not tested
-even though they are widely used. The above-outlined limitations led to
-\emph{Strings­ext}'s main requirement: \emph{character encoding support}.
+\emph{GNU-strings} is not designed to analyse multi-byte encodings in general.
+This is why other very common encodings e.g. \emph{big5} or \emph{koi8-r} can
+not be tested even though they are widely used. The above-outlined limitations
+leads to \emph{Strings­ext}'s main requirement: \emph{character encoding
+support}.
 
 
 \subsection{Secure coding}\label{security2}
@@ -379,7 +355,7 @@ security flaws during implementation and testing.  From the code security point
 of view the requirement \emph{character encoding support} is the most critical:
 The NIST \emph{National Vulnerability Database} lists under the heading
 ``character encoding'' 22 vulnerabilities.  Not only new complex forensic
-software is affected by vulnerabilities. It also concerns other well established
+software is affected by vulnerabilities. It also concerns other well-established
 products: The tool \emph{GNU-strings}, part of the \emph{GNU binutils}
 collection, became publicly available in 1999 \cite{cygnussolutions1999}.
 Today it has reached the notable age of 17 years. \emph{GNU-strings} is a
@@ -410,12 +386,11 @@ was developed with the \emph{Rust} programming language.
 \section{The Rust programming language}\label{rust}
 \label{rust-lang}
 
-This chapter presents some of Rust's core properties that led to the
-choice of implementing \emph{Strings­ext} in Rust.
-
-In forensic tool development \emph{code efficiency} and \emph{security} is of
-primary importance.  Rust supports these requirements with its \emph{zero cost
-abstractions} and its \emph{guaranteed memory safety}.
+In the Section \ref{sec:tool-requirements} we identified that the requirements
+\emph{code efficiency} and \emph{security} must be accounted as of primary
+importance. This section illustrates how Rust supports these requirements with
+its \emph{zero cost abstractions} and its \emph{guaranteed memory safety}
+leading finally to the choice of implementing \emph{Strings­ext} in Rust.
 
 \subsection{Memory safety}\label{_memory_safety}
 
@@ -478,7 +453,7 @@ compile time:
 \def\labelenumi{\arabic{enumi}.}
 \item
   All resources (everything that can be bound to a variable, e.g.
-  vectors etc.{} have owner owner.
+  vectors etc.\ have one owner.
 \item
   Others can borrow from the owner.
 \item
@@ -671,9 +646,9 @@ showed that Rust's core properties \emph{zero cost abstractions} and
 
 But how well is the Rust ecosystem suited for forensic tool development?  To
 evaluate the practical aspects of Rust we developed the tool \emph{Stringsext}
-\cite{getreu2016a}. The technical challenges such as concurrent batch processing
-of multi-byte character streams are sufficiently complex to deduce
-general recommendations for forensic-tool development.
+\cite{getreu2016a}\cite{getreu2017}. The technical challenges such as concurrent
+batch processing of multi-byte character streams are sufficiently complex to
+deduce general recommendations for forensic-tool development.
 
 
 
@@ -727,8 +702,8 @@ characters are found.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.80000\textwidth]{images/stringsext-utf-16le-input-cut.png}
-\caption{Strings­ext's output with UTF-16le encoded input}
+\includegraphics[height=0.20000\textwidth]{images/stringsext-utf-16le-input-cut.png}
+    \caption{Strings­ext's output with \texttt{UTF-16LE} encoded input}
     \label{fig:stringsext-s-output}
 \end{figure}
 
@@ -742,7 +717,7 @@ the different scanners report their results, depend on racing conditions that
 are not predictable. In order to illustrate this phenomenon, the Figure
 \ref{fig:non-reproducible-output} shows the merged output of \emph{Strings­ext}.
 It is not surprising that for example at position \texttt{47} and \texttt{c47}
-the scanners \emph{ASCII} and \emph{UTF-8} find strings at the same location
+the scanners \emph{ASCII} and \texttt{UTF-8} find strings at the same location
 since the ASCII-encoding is a subset of the UTF-8 encoding. Whilst at position
 \texttt{47} the output of the UTF-8 scanner is first listed, at position
 \texttt{c47} the output of the ASCII-scanner is printed first! Even though the
@@ -751,7 +726,7 @@ are presented changes unpredictably!
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.40000\textwidth]{images/non-reproducible-output.png}
+\includegraphics[width=0.450000\textwidth]{images/non-reproducible-output.png}
 \caption{Non reproducible output}
 \label{fig:non-reproducible-output}
 \end{figure}
@@ -765,74 +740,12 @@ first.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.40000\textwidth]{images/reproducible-output.png}
+\includegraphics[width=0.450000\textwidth]{images/reproducible-output.png}
 \caption{Reproducible output}
 \label{fig:reproducible-output}
 \end{figure}
 
 
-% \subsection{User feedback}\label{_user_feedback}
-% 
-% Before publishing \emph{Strings­ext}, a beta-version had been tested by
-% a small group of forensic practitioners. In addition, the participants
-% were invited to report back about desirable extensions or missing
-% features:
-% 
-% \begin{enumerate}
-% \def\labelenumi{\arabic{enumi}.}
-% \item
-%   ``add string encoding based \url{https://tools.ietf.org/html/rfc4648}
-%   (Base64 and others)''
-% \item
-%   ``add Base58 encoding''
-% \item
-%   ``change the list option \texttt{-l} so that it displays the
-%   supported encodings in alphabetic order.''
-% \end{enumerate}
-% 
-% Regarding additional encodings: \emph{Strings­ext} is designed to be extensible.
-% Adding further encodings other than the ones provided is beyond the scope of
-% this project, but it is made easy: As working sample encoding extension
-% \texttt{ASCII\_GRAPHIC} can be found in the source code of \emph{Strings­ext} in
-% \texttt{src/codec/ascii.rs}. The request ``ordered list'' was implemented in
-% version 0.9.5.
-% 
-% So far \emph{Strings­ext's} search algorithm is based solely on finding
-% \emph{valid} byte sequences for a given encoding. \emph{Strings­ext} is
-% a pure \emph{data processing system} in the sense that there are no
-% semantics weather the resulting graphical character sequences make any
-% ``sense''. The following suggestion received by email
-% \cite{frade2016} goes far beyond this limitation.
-% 
-% \begin{quote}
-% For future development: it would be nice to have some form of automatic
-% detection of what encodings are more likely to be present in a given
-% file, or even go further and do automatic detection of language like in
-% Google translator (maybe you could upload selected words).
-% \end{quote}
-% 
-% This above idea opens the very interesting research field of
-% \emph{Computational Linguistics}. Language detection in character
-% sequences requires a linguistic model of ``what is a word'' in a given
-% human language. Thus, with the suggested enhancement \emph{Strings­ext}
-% would become a \emph{language processing system}.
-% 
-% Jurafsky \cite[3]{jurafsky2014} illustrates the
-% conceptual difference between a \emph{data processing system} and a
-% \emph{language processing system} as follows: ``What distinguishes
-% language processing applications from other data processing systems is
-% their use of knowledge of language. Consider the Unix \texttt{wc}
-% program, which counts the total number of bytes, words, and lines in a
-% text fi le. When used to count bytes and lines, \texttt{wc} is an
-% ordinary data processing application. However, when it is used to count
-% the words in a file, it requires knowledge about what it means to be a
-% word and thus becomes a language processing system.'' Applied to
-% \emph{Strings­ext} ``the knowledge about what it means to be a word''
-% comprises a probabilistic model about the likelihood that a certain
-% character sequence represent a word in a given human language. It is
-% clear that the approach is beyond the scope of this project.
-% Nevertheless, the exiting challenge could be tackled in future research
-% projects.
 
 
 \section{Development process evaluation}\label{_development_process_evaluation}
@@ -851,7 +764,7 @@ vulnerabilities (cf. Section \ref{subsec:security1}).  Finally, in order to
 fulfil legal requirements forensic tools must be extensively tested.
 
 The present case study confirms our initial hypothesis that Rust addresses
-theses requirements: Rust, as system
+these requirements: Rust, as system
 programming language, is designed for code efficiency. Rust's security
 guaranties comprise memory safety, the cause for a common category of
 vulnerabilities. It's build in unit testing feature supports
@@ -882,45 +795,41 @@ Benchmark Game'' \cite{fulgham2016} Rust and \emph{C/C++} have similar
 benchmark results.
 
 Forensic tools have to operate on many architectures. Here enters Rust's
-cross-compiling feature on scene.
-As \emph{Rust} uses the LLVM framework as backend, it is available for most
-platforms. \texttt{rustc --print target-list} lists 26 compiler targets.
+cross-compiling feature on scene.  As \emph{Rust} uses the LLVM framework as
+backend, it is available for most platforms. \texttt{rustc --print target-list}
+lists 26 compiler targets.
 
-As described above, Rust's memory safety guarantee is a huge improvement
-in terms of security because a whole category of potential
-vulnerabilities can be ruled out from the outset. But memory safety does
-not mean bug freeness! Beside the security aspects discussed above, the
-correctness of forensic software is crucial (cf. Section
-\ref{subsec:tool-validation}). It is clear that
-the overall correctness of a program depend also on the correctness of
-every library used. Hence, the question arises whether the Rust
-ecosystem is mature enough to meet the ambitious requirements of
-forensic software. Indeed, compared to C, Rust's libraries are
-relatively young. Here again extensive unit testing revealed to be a
-helpful diagnostic method: version 0.4.16 of the brand new
-\texttt{kmerge} function, part of the \texttt{itertools} library used in
-\emph{Strings­ext}, reversed under rare conditions the first and second
-finding. This bug was actually fixed with pull request \#135 (2. Aug.
-2016) some days after its appearance. Although the bug-fix was already
-committed in Github, the package manager did not know about it, because
-no new version of \texttt{itertools} was released yet. On the whole, a
-little change in the package reference list \texttt{Cargo.toml} solved
-the problem immediately. Finally, it took another week for the corrected
-\texttt{itertools} version to be released. So far this was the only time
-I encountered a bug in any of the used libraries. One conclusion we can
-draw from this experience, is that young libraries are more likely to
-have bugs than established ones. It cannot be emphasised enough that,
-diligent unit tests help to find most bugs at early state. Also those
-present in external libraries. However, unit testing do not help against
-memory safety related vulnerabilities, which are typical for C and C++
-programs and which can persist in software for decades. It is incumbent
-on readers to form their own opinion, I largely prefer accepting the
-greater likelihood of manageable bugs related to young Rust libraries,
-than the uncertainty of hidden memory safety related vulnerabilities
-typical for \emph{C} and \emph{C++}.
+As described above, Rust's memory safety guarantee is a huge improvement in
+terms of security because a whole category of potential vulnerabilities can be
+ruled out from the outset. But memory safety does not mean bug freeness! Beside
+the security aspects discussed above, the correctness of forensic software is
+crucial (cf. Section \ref{subsec:tool-validation}). It is clear that the overall
+correctness of a program depend also on the correctness of every library used.
+Hence, the question arises whether the Rust ecosystem is mature enough to meet
+the ambitious requirements of forensic software. Indeed, compared to C, Rust's
+libraries are relatively young. Here again extensive unit testing revealed to be
+a helpful diagnostic method: version 0.4.16 of the brand new \texttt{kmerge}
+function, part of the \texttt{itertools} library used in \emph{Strings­ext},
+reversed under rare conditions the first and second finding. This bug was
+actually fixed with pull request \#135 (2. Aug.  2016) some days after its
+appearance. Although the bug-fix was already committed in Github, the package
+manager did not know about it, because no new version of \texttt{itertools} was
+released yet. On the whole, a little change in the package reference list
+\texttt{Cargo.toml} solved the problem immediately. Finally, it took another
+week for the corrected \texttt{itertools} version to be released. So far this
+was the only time I encountered a bug in any of the used libraries. One
+conclusion we can draw from this experience, is that young libraries are more
+likely to have bugs than established ones. It cannot be emphasised enough that,
+diligent unit tests help to find most bugs at early state. Also, those present in
+external libraries. However, unit testing do not help against memory safety
+related vulnerabilities, which are typical for C and C++ programs and which can
+persist in software for decades. It is incumbent on readers to form their own
+opinion, I largely prefer accepting the greater likelihood of manageable bugs
+related to young Rust libraries, than the uncertainty of hidden memory safety
+related vulnerabilities typical for \emph{C} and \emph{C++}.
 
 Rust code has the reputation that it is easy to read and understand, but
-it is hard to write. I subscribe to this point of view. Rust's biggest
+it is hard to write. We subscribe to this point of view. Rust's biggest
 strength is that unsafe code does not compile, can be also very
 frustrating. Especially when you do not understand the compiler's error
 messages. At some stage it even happened, that I run out of ideas how to
@@ -929,18 +838,19 @@ very supporting and helpful. In the meantime, also Rust's error messages
 improved with version 1.12 and Rust's documentation is steadily updated
 and enhanced.
 
-The benefits of \emph{unit testing} had been stressed throughout this
-work. The chosen software development method for this project was the
-\emph{test driven development} method where \emph{unit testing} is the
-key element. Contrary to other methods unit tests and the to be tested
-code is always programmed by the same person, which fitted well the setting
-of this project. However, other methods may be as suitable depending
-on the organisational structure of the programmer team.
+Finally, we recognize the benefits of \emph{unit testing} throughout this work.
+For this reason we chose for this project the \emph{test driven development}
+method where \emph{unit testing} is the key element. Contrary to other methods,
+in \emph{test driven development} unit tests and the to be tested code is always
+programmed by the same person, which fits well the setting of this project.
+However, other methods may be as suitable depending on the organisational
+structure of the programmer team.
 
 \section{Conclusion}
 
-The use case ``development of the \emph{Stringsext}-tool showed that Rust was a
-very good choice for the present project, even though batch processing of
+
+The use case ``development of the \emph{Stringsext}-tool'' shows that Rust was a
+good choice for the present project, even though batch processing of
 multi-bytes character streams revealed to be far more complex than expected.
 Additionally, concurrent programming in Rust posed a formidable hurdle at the
 beginning. Fortunately, it did prove to be helpful to contact the Rust community
@@ -948,7 +858,7 @@ for their friendly assistance. In addition, for a not so experienced Rust
 programmer it is reassuring to know that when a complex piece of code finally
 compiles, it is memory safe. The same reasoning applies when a programmer has to
 refactor existing code. I often had a queasy feeling when I had to work on other
-people C code. Do I free the memory at the right moment? Is this pointer still
+people's C code. Do I free the memory at the right moment? Is this pointer still
 valid? Rust's ownership paradigm resolves this uncertainty. When it compiles,
 then it is memory safe. Furthermore, Rust is especially suitable for bigger
 projects where several programmers contribute to the same code. And this is
@@ -965,11 +875,75 @@ the test code and the to be tested code can be validated in one go.
 
 \emph{Strings­ext} is currently in production state and can be used in forensic
 investigations as a \emph{GNU strings} replacement. It is especially useful
-where \emph{GNU-strings} fails: for example it allows to find UTF-16 multi-byte
+where \emph{GNU-strings} fails: for example it allows finding UTF-16 multi-byte
 characters in memory images. 
 
-%\sloppy
-\bibliography{references}
 \bibliographystyle{splncs03}
-%\fussy
+%\bibliography{references}
+
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{beckett2007}
+Beckett, J., Slay, J.: Digital forensics: {{Validation}} and verification in a
+  dynamic work environment. pp. 266a--266a. {IEEE} (2007)
+
+\bibitem{berinato2007}
+Berinato, S.: The {{Rise}} of {{Anti Forensics}}. (Aug 2007),
+  \url{http://www.csoonline.com/article/2122329}
+
+\bibitem{secconsult2017}
+Consult, S.: Chainsaw of {{Custody}}: {{Manipulating}} forensic evidence the
+  easy way (May 2017),
+  \url{http://blog.sec-consult.com/2017/05/chainsaw-of-custody-manipulating.html}
+
+\bibitem{mitrecorporation2016}
+Corporation, M.: {{CWE}} - {{Common Weakness Enumeration}}, a
+  {{Community}}-{{Developed Dictionary}} of {{Software Weakness Types}} (2016),
+  \url{https://cwe.mitre.org/}
+
+\bibitem{craiger2006}
+Craiger, P., Swauger, J., Marberry, C., Hendricks, C.: Validation of digital
+  forensics tools. Digital crime and forensic science in cyberspace. Hershey,
+  PA: Idea Group Inc pp. 91--105 (2006)
+
+\bibitem{cygnussolutions1999}
+Cygnus-Solutions: Log message: Sourceware import (Mar 1999),
+  \url{https://sourceware.org/ml/binutils-cvs/1999-q2/msg00000.html}
+
+\bibitem{eggendorfer2016}
+Eggendorfer, T.: {{IT}} forensics. {{Why}} post-mortem is dead. {{Cyber
+  Security Summer School}} 2016: {{Digital Forensics}}, {{Technology}} and
+  {{Law}} (Jul 2016)
+
+\bibitem{fulgham2016}
+Fulgham, B., Gouy, I.: Computer {{Language Benchmarks Game}}: {{C}}++
+  versus~{{Rust}} (Oct 2016), \url{http://benchmarksgame.alioth.debian.org}
+
+\bibitem{getreu2016a}
+Getreu, J.: Stringsext, a {{GNU Strings Alternative}} with
+  {{Multi}}-{{Byte}}-{{Encoding Support}} (Jan 2016),
+  \url{https://github.com/getreu/stringsext}
+
+\bibitem{getreu2017}
+Getreu, J.: Forensic-{{Tool Development}} with {{Rust}}. Master's thesis, Tallinn
+  University of Technology, Tallinn (Mar 2017),
+  \url{http://blog.getreu.net/\_downloads/forensic-tool-development-with-rust.pdf}
+
+\bibitem{harichandran2016}
+Harichandran, V.S., Walnycky, D., Baggili, I., Breitinger, F.: {{CuFA}}: {{A}}
+  more formal definition for digital forensic artifacts. Digital Investigation
+  18,  S125--S137 (2016)
+
+\bibitem{zalewski2014}
+Zalewski, M.: {{PSA}}: Don't run 'strings' on untrusted files
+  ({{CVE}}-2014-8485) (Oct 2014),
+  \url{http://lcamtuf.blogspot.com.ee/2014/10/psa-dont-run-strings-on-untrusted-files.html}
+
+\end{thebibliography}
+
+
+
+
 \end{document}
