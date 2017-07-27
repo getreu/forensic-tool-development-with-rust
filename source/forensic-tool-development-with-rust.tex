@@ -96,8 +96,8 @@ In the domain of digital forensics an observation of a well-known
 cause-effect-relationship between an electronic trace (effect) and what has
 happened (cause) is a so called \textbf{artefact}. It embodies any ``item of
 interest that helps an investigation move forward.'' \footnote{
-\cite[125]{harichandran2016}. A more formal definition named \emph{Curated
-(digital) Forensic Artefact (CuFA)} proposed in \cite[131]{harichandran2016}
+\cite[p. 125]{harichandran2016}. A more formal definition named \emph{Curated
+(digital) Forensic Artefact (CuFA)} proposed in \cite[p. 131]{harichandran2016}
 embraces that it must:
 
 \begin{itemize}
@@ -154,7 +154,7 @@ Accreditation standard}.
     intended.
 \item[Verification]
     is the confirmation of a validation with a laboratories tools,
-    techniques and procedures \cite[92]{craiger2006}.
+    techniques and procedures \cite[p. 92]{craiger2006}.
     \footnote{It should be noted that the forensic 
 	community's definition of \emph{validation} and \emph{verification} 
 	differs from what is used in software engineering.}
@@ -175,7 +175,7 @@ their specifications is defined. This allows to decouple the validation
 procedure from the implementation of the forensic tool itself. A forensic
 function is an activity required in forensic investigation that produces known
 valid results for a given set of test cases.  For example, Figure
-\ref{the-search-target-mapping} \cite[17]{beckett2007} shows the search target
+\ref{the-search-target-mapping} \cite[p. 17]{beckett2007} shows the search target
 mapping, a property of the general \emph{search function}. The subcategory
 ``Character encoding'' illustrates the main deficit of \emph{GNU-strings} as it
 supports only ASCII encoding. In global cyberspace, forensic tools must identify
@@ -185,8 +185,8 @@ of \emph{Strings­ext}: \emph{multibyte character encoding support}.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.80000\textwidth]{images/03-The_search_target_mapping.jpg}
-\caption{The search target mapping}
-\label{the-search-target-mapping}
+	\caption{The search target mapping \protect\cite[p. 17]{beckett2007}}
+	\label{the-search-target-mapping}
 \end{figure}
 
 The \emph{functionality oriented validation} can be classified as ``black box
@@ -490,11 +490,12 @@ out of scope it is immediately destroyed.
 
 
 
-The following code samples illustrate how the Rust compiler detects non-obvious
-hidden memory safety issues. The function \texttt{as\_str} 
-returns a pointer to a stack allocated resource \texttt{s} that is freed at the
-end of the function: we find ourselves with a ``Use after free'' condition! The
-compiler aborts with the error message \texttt{s\ does\ not\ live long\ enough}.
+The following code samples \cite[Sec. 3.2]{the-rust-project-developers2017}
+illustrate how the Rust compiler detects non-obvious hidden memory safety
+issues. The function \texttt{as\_str} returns a pointer to a stack allocated
+resource \texttt{s} that is freed at the end of the function: we find ourselves
+with a ``Use after free'' condition! The compiler aborts with the error message
+\texttt{s\ does\ not\ live long\ enough}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -566,7 +567,8 @@ CWE ID & Name \\
 \hline
 \end{tabular}
 \end{center}
-    \caption{Common weaknesses in C/C++ affecting memory avoidable with iterators}
+    \caption{Common weaknesses in C/C++ affecting memory avoidable with 
+	     iterators\protect\cite{mitrecorporation2016}}
     \label{tab:c-memory-safety-bugs2}
 \end{table}
 
@@ -764,13 +766,12 @@ potentially dangerous: it may contain malicious payload targeting common
 vulnerabilities (cf. Section \ref{subsec:security1}).  Finally, in order to
 fulfil legal requirements forensic tools must be extensively tested.
 
-The present case study confirms our initial hypothesis that Rust addresses
-these requirements: Rust, as system
-programming language, is designed for code efficiency. Rust's security
-guaranties comprise memory safety, the cause for a common category of
-vulnerabilities. It's build in unit testing feature supports
-\emph{software verification} as defined in the
-Section \ref{subsec:tool-validation}.
+The present case study confirms our initial hypothesis that Rust addresses these
+requirements: Rust, as system programming language, is designed for code
+efficiency. Rust's security guaranties comprise memory safety, the cause for a
+common category of vulnerabilities. It's build in unit testing feature supports
+\emph{software verification} as defined in the Section
+\ref{subsec:tool-validation}.
 
 Guaranteed memory safety is a core property of Rust's borrow checker:
 When a Rust source code compiles, the resulting binary \emph{is}
@@ -825,19 +826,19 @@ diligent unit tests help to find most bugs at early state. Also, those present i
 external libraries. However, unit testing do not help against memory safety
 related vulnerabilities, which are typical for C and C++ programs and which can
 persist in software for decades. It is incumbent on readers to form their own
-opinion, I largely prefer accepting the greater likelihood of manageable bugs
+opinion, We largely prefer accepting the greater likelihood of manageable bugs
 related to young Rust libraries, than the uncertainty of hidden memory safety
 related vulnerabilities typical for \emph{C} and \emph{C++}.
 
-Rust code has the reputation that it is easy to read and understand, but
-it is hard to write. We subscribe to this point of view. Rust's biggest
-strength is that unsafe code does not compile, can be also very
-frustrating. Especially when you do not understand the compiler's error
-messages. At some stage it even happened, that I run out of ideas how to
-fix a particular problem. Fortunately, the Rust Internet community is
-very supporting and helpful. In the meantime, also Rust's error messages
-improved with version 1.12 and Rust's documentation is steadily updated
-and enhanced.
+% Rust code has the reputation that it is easy to read and understand, but
+% it is hard to write. We subscribe to this point of view. Rust's biggest
+% strength is that unsafe code does not compile, can be also very
+% frustrating. Especially when you do not understand the compiler's error
+% messages. At some stage it even happened, that we run out of ideas how to
+% fix a particular problem. Fortunately, the Rust Internet community is
+% very supporting and helpful. In the meantime, also Rust's error messages
+% improved with version 1.12 and Rust's documentation is steadily updated
+% and enhanced.
 
 Finally, we recognize the benefits of \emph{unit testing} throughout this work.
 For this reason we chose for this project the \emph{test driven development}
@@ -851,19 +852,19 @@ structure of the programmer team.
 
 
 The use case ``development of the \emph{Stringsext}-tool'' shows that Rust was a
-good choice for the present project, even though batch processing of
-multi-bytes character streams revealed to be far more complex than expected.
-Additionally, concurrent programming in Rust posed a formidable hurdle at the
-beginning. Fortunately, it did prove to be helpful to contact the Rust community
-for their friendly assistance. In addition, for a not so experienced Rust
-programmer it is reassuring to know that when a complex piece of code finally
-compiles, it is memory safe. The same reasoning applies when a programmer has to
-refactor existing code. I often had a queasy feeling when I had to work on other
-people's C code. Do I free the memory at the right moment? Is this pointer still
-valid? Rust's ownership paradigm resolves this uncertainty. When it compiles,
-then it is memory safe. Furthermore, Rust is especially suitable for bigger
-projects where several programmers contribute to the same code. And this is
-particularly true when developing forensic software with its high quality
+good choice for the present project, even though batch processing of multi-bytes
+character streams revealed to be far more complex than expected.  Additionally,
+concurrent programming in Rust posed a formidable hurdle at the beginning.
+Fortunately, it did prove to be helpful to contact the Rust community for their
+friendly assistance. In addition, for a not so experienced Rust programmer it is
+reassuring to know that when a complex piece of code finally compiles, it is
+memory safe. The same reasoning applies when a programmer has to refactor
+existing code. ``I often had a queasy feeling when I had to work on other
+people's C code.'' ``Do I free the memory at the right moment? Is this pointer
+still valid?'' Rust's ownership paradigm resolves this uncertainty. When it
+compiles, then it is memory safe. Furthermore, Rust is especially suitable for
+bigger projects where several programmers contribute to the same code. And this
+is particularly true when developing forensic software with its high quality
 standards.
 
 It has to be noted though that the Rust ecosystem is still very young
@@ -881,6 +882,7 @@ characters in memory images.
 
 \bibliographystyle{splncs03}
 %\bibliography{references}
+
 
 \begin{thebibliography}{10}
 \providecommand{\url}[1]{\texttt{#1}}
@@ -937,14 +939,16 @@ Harichandran, V.S., Walnycky, D., Baggili, I., Breitinger, F.: {{CuFA}}: {{A}}
   more formal definition for digital forensic artifacts. Digital Investigation
   18,  S125--S137 (2016)
 
+\bibitem{the-rust-project-developers2017}
+{The-Rust-Project-Developers}: The {{Rustonomicon}} (2017),
+  \url{https://doc.rust-lang.org/nomicon/}
+
 \bibitem{zalewski2014}
 Zalewski, M.: {{PSA}}: Don't run 'strings' on untrusted files
   ({{CVE}}-2014-8485) (Oct 2014),
   \url{http://lcamtuf.blogspot.com.ee/2014/10/psa-dont-run-strings-on-untrusted-files.html}
 
 \end{thebibliography}
-
-
 
 
 \end{document}
