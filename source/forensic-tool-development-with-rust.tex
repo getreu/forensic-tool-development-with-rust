@@ -289,7 +289,7 @@ upon this we derive a set of requirements for \emph{Strings­ext}.
 
 Forensic examiners use the GNU program \emph{strings}, hereafter referred as
 \emph{GNU strings}, to get a sense of the
-functionality of an unknown program. E.g. extracted URLs to malicious sites can
+functionality of an unknown program, e.g. extracted URLs to malicious sites can
 be an indicator of malware. Also, user prompts, error messages, and status
 messages can give hints for further investigation.
 
@@ -329,20 +329,20 @@ UTF-16 little endian encoded input as an example.
 \end{figure}
 
 
-\noindent \textbf{Results:} \texttt{UTF-8} is the only encoding in which \emph{GNU
-strings} is able to find international characters.  The Figure
-\ref{fig:strings-e-l}, chosen as an example, shows that with \texttt{UTF-16} no
-international characters are recognized. The same holds true for \texttt{UTF-32}
-and most other encodings: This limitation is of particular importance in
-forensic investigations: The Microsoft-Windows operating system handles Unicode
-characters in memory as 2 byte \texttt{UTF-16} words. As a result when dealing
-with Microsoft-Windows memory images, \emph{GNU-strings} is not able to detect
-any international characters!  It should not be forgotten that
-\emph{GNU-strings} is not designed to analyse multi-byte encodings in general.
-This is why other very common encodings e.g. \emph{big5} or \emph{koi8-r} can
-not be tested even though they are widely used. The above-outlined limitations
-leads to \emph{Strings­ext}'s main requirement: \emph{character encoding
-support}.
+\noindent \textbf{Results:} \texttt{UTF-8} is the only encoding in which
+\emph{GNU strings} is able to find international characters.  The Figure
+\ref{fig:strings-e-l}, chosen as an example, shows that with \texttt{UTF-16}
+input, \emph{GNU strings} does not recognize any non-ASCII character.  The same
+holds true for \texttt{UTF-32} and most other encodings: This limitation is of
+particular importance in forensic investigations: The Microsoft-Windows
+operating system handles Unicode characters in memory as 2 byte \texttt{UTF-16}
+words. As a result when dealing with Microsoft-Windows memory images,
+\emph{GNU-strings} is not able to detect any international characters!  It
+should not be forgotten that \emph{GNU-strings} is not designed to analyse
+multi-byte encodings in general.  This is why other very common encodings e.g.
+\emph{big5} or \emph{koi8-r} can not be tested even though they are widely used.
+The above-outlined limitations leads to \emph{Strings­ext}'s main requirement:
+\emph{character encoding support}.
 
 
 \subsection{Secure coding}\label{security2}
@@ -575,7 +575,7 @@ CWE ID & Name \\
 
 In addition to traditional imperative loop control structures,
 \emph{Rust} offers efficient iteration with functional style iterators.
-Like in Haskel iterators are lazy and avoid allocating memory for
+Like in Haskell iterators are lazy and avoid allocating memory for
 intermediate structures (you allocate just when you call
 \texttt{.collect()}).
 
@@ -819,7 +819,7 @@ manager did not know about it, because no new version of \texttt{itertools} was
 released yet. On the whole, a little change in the package reference list
 \texttt{Cargo.toml} solved the problem immediately. Finally, it took another
 week for the corrected \texttt{itertools} version to be released. So far this
-was the only time I encountered a bug in any of the used libraries. One
+was the only time we encountered a bug in any of the used libraries. One
 conclusion we can draw from this experience, is that young libraries are more
 likely to have bugs than established ones. It cannot be emphasised enough that,
 diligent unit tests help to find most bugs at early state. Also, those present in
@@ -859,8 +859,8 @@ Fortunately, it did prove to be helpful to contact the Rust community for their
 friendly assistance. In addition, for a not so experienced Rust programmer it is
 reassuring to know that when a complex piece of code finally compiles, it is
 memory safe. The same reasoning applies when a programmer has to refactor
-existing code. ``I often had a queasy feeling when I had to work on other
-people's C code.'' ``Do I free the memory at the right moment? Is this pointer
+existing code. ``We often had a queasy feeling when we had to work on other
+people's C code.'' ``Do we free the memory at the right moment? Is this pointer
 still valid?'' Rust's ownership paradigm resolves this uncertainty. When it
 compiles, then it is memory safe. Furthermore, Rust is especially suitable for
 bigger projects where several programmers contribute to the same code. And this
