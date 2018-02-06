@@ -60,16 +60,16 @@
 \begin{abstract}
 
 Within the framework of this study the suitability of the \emph{Rust} ecosystem
-for forensic tool development is evaluated.  The development of a forensic
-tool named \emph{Strings­ext}\cite{getreu2016a}\cite{getreu2017} serves as a
-case study.  Starting from analysing the specific requirements of forensic
-software in general and those of the present case study, all stages of the
-software development life-cycle have been executed, up to the first
-production release.  \emph{Strings­ext} is a reimplementation and
-enhancement of the \emph{GNU-strings} tool, a widely used program in
-forensic investigations.  \emph{Strings­ext} recognizes Cyrillic, CJKV
-characters and other scripts in all supported multi-byte-encodings while
-\emph{GNU-strings} fails in finding these in UTF-16 and other encodings.
+for forensic tool development is evaluated.  The development of a forensic tool
+named \emph{Strings­ext}\cite{getreu2016a}\cite{getreu2017} serves as a case
+study.  Starting from analysing the specific requirements of forensic software
+in general and those of the present case study, all stages of the software
+development life-cycle have been executed, up to the first production release.
+\emph{Strings­ext} is a reimplementation and enhancement of the
+\emph{GNU-strings} tool, a widely used program in forensic investigations.
+\emph{Strings­ext} recognizes Cyrillic, CJKV East Asian characters and other
+scripts in all supported multi-byte-encodings while \emph{GNU-strings} fails in
+finding these in UTF-16 and other encodings.
 
 During the case study it has become apparent that the \emph{Rust}
 ecosystem provides good support for secure coding principles and unit
@@ -91,6 +91,7 @@ to the cross-linked nature of computer systems the total amount of data that
 needs to be taken into consideration when investigating a crime is enormous. In
 this ocean of information the investigator has to find specific drops of
 information constituting digital evidences. 
+
 
 In the domain of digital forensics an observation of a well-known
 cause-effect-relationship between an electronic trace (effect) and what has
