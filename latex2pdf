@@ -6,10 +6,10 @@ render () {
    cp -r source/* build/pdf
 
    cd build/pdf
-   xelatex "$2" "$TexBase.tex"  
+   pdflatex "$2" "$TexBase.tex"  
    bibtex "$TexBase" 
-   xelatex "$2" "$TexBase.tex"  
-   xelatex "$2"  "$TexBase.tex"  
+   pdflatex "$2" "$TexBase.tex"  
+   pdflatex "$2"  "$TexBase.tex"  
    #mupdf "$TexBase.pdf"
 }
    

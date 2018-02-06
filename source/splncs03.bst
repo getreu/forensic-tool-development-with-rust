@@ -1,1 +1,0 @@
-./latex-template/splncs03.bst

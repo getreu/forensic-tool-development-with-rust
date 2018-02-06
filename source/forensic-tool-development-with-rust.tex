@@ -1,4 +1,89 @@
-\documentclass{llncs}
+%% 
+%% Copyright 2007, 2008, 2009 Elsevier Ltd
+%% 
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%% 
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%% 
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%% 
+
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+
+%%\documentclass[preprint,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+\documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+%\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%% \usepackage{lineno}
+%% \modulolinenumbers[5]
+
+
+\usepackage{hyperref}
+
+
+\journal{Nuclear Physics B}
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Format source code
 \usepackage{color}
 \usepackage{graphicx,grffile}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
@@ -39,26 +124,32 @@
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
 \newcommand{\NormalTok}[1]{{#1}}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Format source code
 
 \begin{document}
 
-\title{Forensic-Tool Development with Rust}
-%%% Remove temporarily the names and affiliations of authors from the title page.
-% \author{Jens Getreu \and Olaf Maennel}
-\date{7/7/2016}
-% \institute{Tallinn University of Technology\\
-% Centre for Digital Forensics and Cyber Security\\
-% Department of Computer Science
-%}
+\begin{frontmatter}
 
-\maketitle
+\title{Forensic-Tool Development with Rust\tnoteref{mytitlenote}}
+\tnotetext[mytitlenote]{Fully documented templates are available in the elsarticle package on \href{http://www.ctan.org/tex-archive/macros/latex/contrib/elsarticle}{CTAN}.}
+
+%% Group authors per affiliation:
+\author{Elsevier\fnref{myfootnote}}
+\address{Radarweg 29, Amsterdam}
+\fntext[myfootnote]{Since 1880.}
+
+%% or include affiliations in footnotes:
+\author[mymainaddress,mysecondaryaddress]{Elsevier Inc}
+\ead[url]{www.elsevier.com}
+
+\author[mysecondaryaddress]{Global Customer Service\corref{mycorrespondingauthor}}
+\cortext[mycorrespondingauthor]{Corresponding author}
+\ead{support@elsevier.com}
+
+\address[mymainaddress]{1600 John F Kennedy Boulevard, Philadelphia}
+\address[mysecondaryaddress]{360 Park Avenue South, New York}
 
 \begin{abstract}
-
 Within the framework of this study the suitability of the \emph{Rust} ecosystem
 for forensic tool development is evaluated.  The development of a forensic tool
 named \emph{Strings­ext}\cite{getreu2016a}\cite{getreu2017} serves as a case
@@ -77,6 +168,21 @@ testing. Furthermore, the benchmarks showed a satisfactory performance
 of the resulting \emph{Strings­ext} binaries comparable to the original
 \emph{C} version.
 \end{abstract}
+
+
+\begin{keyword}
+\texttt{elsarticle.cls}\sep \LaTeX\sep Elsevier \sep template
+\MSC[2010] 00-01\sep  99-00
+\end{keyword}
+
+\end{frontmatter}
+
+%\linenumbers
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
 
 
 
@@ -102,18 +208,12 @@ interest that helps an investigation move forward.'' \footnote{
 embraces that it must:
 
 \begin{itemize}
-\item
-  be curated via a procedure which uses forensic techniques.
-\item
-  have a location in a useful format (when applicable).
-\item
-  have evidentiary value in a legal proceeding.
-\item
-  be created by an external force/artificially.
-\item
-  have antecedent temporal relation/importance.
-\item
-  be exceptional (based on accident, rarity, or personal interest).
+\item be curated via a procedure which uses forensic techniques.
+\item have a location in a useful format (when applicable).
+\item have evidentiary value in a legal proceeding.
+\item be created by an external force/artificially.
+\item have antecedent temporal relation/importance.
+\item be exceptional (based on accident, rarity, or personal interest).
 \end{itemize}
 }
 
@@ -185,7 +285,7 @@ of \emph{Strings­ext}: \emph{multibyte character encoding support}.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.80000\textwidth]{images/03-The_search_target_mapping.jpg}
+\includegraphics[width=\linewidth]{images/03-The_search_target_mapping.jpg}
 	\caption{The search target mapping \protect\cite[p. 17]{beckett2007}}
 	\label{the-search-target-mapping}
 \end{figure}
@@ -308,7 +408,7 @@ file chosen as test case.
 
 \begin{figure}[htbp]
    \centering
-   \includegraphics[height=0.20000\textwidth]{images/test_case_encoding-input.png}
+   \includegraphics[width=0.666666\linewidth]{images/test_case_encoding-input.png}
    \caption{Test case international character encodings}
    \label{fig:test-international-character-encodings}
 \end{figure}
@@ -324,7 +424,7 @@ UTF-16 little endian encoded input as an example.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[height=0.20000\textwidth]{images/strings_-e_l.png}
+\includegraphics[width=1\linewidth]{images/strings_-e_l.png}
 \caption{GNU-strings with UTF-16LE encoded input}
 \label{fig:strings-e-l}
 \end{figure}
@@ -621,7 +721,7 @@ best illustrated with memory layouts: Figure
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.55000\textwidth]{images/rust-vec.png}
+\includegraphics[width=\linewidth]{images/rust-vec.png}
 \caption{Memory layout of a Rust vector}
 \label{fig:rust-vec}
 \end{figure}
@@ -634,7 +734,7 @@ the data could be represented in a more efficient way in memory, we see that
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.60000\textwidth]{images/java-vec.png}
+\includegraphics[width=\linewidth]{images/java-vec.png}
 \caption{Memory layout of a Java vector}
     \label{fig:java-vec}
 \end{figure}
@@ -684,7 +784,7 @@ its result through a dedicated \emph{message channel} to the
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.80000\textwidth]{images/data-processing-and-thread.png.png}
+\includegraphics[width=\linewidth]{images/data-processing-and-thread.png.png}
 \caption{Data processing and threads}
 \label{fig:data-processing-and-threads}
 \end{figure}
@@ -706,7 +806,7 @@ characters are found.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[height=0.20000\textwidth]{images/stringsext-utf-16le-input-cut.png}
+\includegraphics[width=\linewidth]{images/stringsext-utf-16le-input-cut.png}
     \caption{Strings­ext's output with \texttt{UTF-16LE} encoded input}
     \label{fig:stringsext-s-output}
 \end{figure}
@@ -730,7 +830,7 @@ are presented changes unpredictably!
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.450000\textwidth]{images/non-reproducible-output.png}
+\includegraphics[width=0.7\linewidth]{images/non-reproducible-output.png}
 \caption{Non reproducible output}
 \label{fig:non-reproducible-output}
 \end{figure}
@@ -744,7 +844,7 @@ first.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.450000\textwidth]{images/reproducible-output.png}
+\includegraphics[width=0.7\linewidth]{images/reproducible-output.png}
 \caption{Reproducible output}
 \label{fig:reproducible-output}
 \end{figure}
