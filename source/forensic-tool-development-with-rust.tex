@@ -131,6 +131,7 @@
 \begin{frontmatter}
 
 \title{Forensic-Tool Development with Rust\tnoteref{mytitlenote}}
+
 \tnotetext[mytitlenote]{Fully documented templates are available in the elsarticle package on \href{http://www.ctan.org/tex-archive/macros/latex/contrib/elsarticle}{CTAN}.}
 
 %% Group authors per affiliation:
@@ -198,10 +199,18 @@ needs to be taken into consideration when investigating a crime is enormous. In
 this ocean of information the investigator has to find specific drops of
 information constituting digital evidences. 
 
-
-In the domain of digital forensics an observation of a well-known
-cause-effect-relationship between an electronic trace (effect) and what has
-happened (cause) is a so called \textbf{artefact}. It embodies any ``item of
+In the domain of digital forensics an electronic trace (observation) with a
+well-known cause-effect-relationship between this observation (effect) and the
+human action causing it, is a so called \textbf{artefact}.  \footnote{For the
+sake of simplicity in this introduction, we present a rather simplistic view
+associating univocally one trace (artefact/observation) with only one possible
+cause/activity. In the physical world, one trace/observation has normally
+several possible causes which cannot be excluded a priori. For this reason
+modern forensics favours the \emph{Likelihood Ratio} approach, in which the
+degree of support of the observations for the hypotheses is considered,
+providing a strength of evidence (diagnostic value) that is relative to the
+hypotheses tested.}
+It embodies any ``item of
 interest that helps an investigation move forward.'' \footnote{
 \cite[p. 125]{harichandran2016}. A more formal definition named \emph{Curated
 (digital) Forensic Artefact (CuFA)} proposed in \cite[p. 131]{harichandran2016}
@@ -220,17 +229,17 @@ embraces that it must:
 Forensic examiners - the law enforcement personnel who deal with 
 digital evidence - face inter alia two challenges: to collect and to 
 preserve the huge amount of data that may be related to a crime and to 
-search and identify artefacts in the collected data.
+search and detect artefacts in the collected data.
 
 
-The latter aspect includes so called \emph{string search} which is useful when
-dealing with unknown binaries. Most executable binary code contains human
-readable character sequences called strings. A very common used program to
-extract strings from a binary executable code is the so called
-\emph{GNU-strings} program. Also, the software tool \emph{Stringsext} developed
-in this present work is made for this purpose: The new development is designed
-to overcome some of \emph{GNU-strings} shortcomings. Where possible, it
-maintains \emph{GNU-strings'} user-interface.
+The latter aspect includes the so called \emph{string search} which is useful
+when dealing with unknown binary data. Most binary data contain human readable
+character sequences called strings. A very commonly used program to extract
+strings from a binary data is the so called \emph{GNU-strings} program. The
+software tool \emph{Stringsext}, developed in this present work, is made for
+same purpose. The new development is designed to overcome some of
+\emph{GNU-strings} shortcomings. Where possible, it maintains
+\emph{GNU-strings'} user-interface.
 
 \section{Tool Requirements in Digital Forensics}
 \label{sec:tool-requirements}
@@ -308,7 +317,7 @@ with the \emph{test driven development} method is chosen for the
 
 The relation between the criminal and the forensic examiner can be described as
 follows: ``Make it hard for them to find you and impossible for them to prove
-they found you'' \cite{berinato2007}. Have your recognised the statement? Is
+they found you'' \cite{berinato2007}. Have you recognized the statement? Is
 widely cited when it comes to define anti-forensics. This traditional 
 "hide-and-seek" relation might soon take a new dimension: Eggendorfer
 \cite{eggendorfer2016} stresses with good reasons that forensic tools are
