@@ -52,7 +52,7 @@
 \usepackage{hyperref}
 
 
-\journal{Nuclear Physics B}
+%\journal{Nuclear Physics B}
 %%%%%%%%%%%%%%%%%%%%%%%
 %% To change the style, put a % in front of the second line of the current style and
 %% remove the % from the second line of the style you would like to use.
@@ -130,33 +130,39 @@
 
 \begin{frontmatter}
 
-\title{Forensic-Tool Development with Rust\tnoteref{mytitlenote}}
+\title{Forensic-Tool Development with Rust}
 
-\tnotetext[mytitlenote]{Fully documented templates are available in the elsarticle package on \href{http://www.ctan.org/tex-archive/macros/latex/contrib/elsarticle}{CTAN}.}
+%\title{Forensic-Tool Development with Rust\tnoteref{mytitlenote}}
+%\tnotetext[mytitlenote]{Fully documented templates are available in the elsarticle package on \href{http://www.ctan.org/tex-archive/macros/latex/contrib/elsarticle}{CTAN}.}
 
 %% Group authors per affiliation:
-\author{Elsevier\fnref{myfootnote}}
-\address{Radarweg 29, Amsterdam}
-\fntext[myfootnote]{Since 1880.}
+%\author{Elsevier\fnref{myfootnote}}
+%\address{Radarweg 29, Amsterdam}
+%\fntext[myfootnote]{Since 1880.}
 
 %% or include affiliations in footnotes:
-\author[mymainaddress,mysecondaryaddress]{Elsevier Inc}
-\ead[url]{www.elsevier.com}
+%\author[mymainaddress,mysecondaryaddress]{Elsevier Inc}
+%\ead[url]{www.elsevier.com}
 
-\author[mysecondaryaddress]{Global Customer Service\corref{mycorrespondingauthor}}
-\cortext[mycorrespondingauthor]{Corresponding author}
-\ead{support@elsevier.com}
+%\author[mysecondaryaddress]{Global Customer Service\corref{mycorrespondingauthor}}
+%\cortext[mycorrespondingauthor]{Corresponding author}
+%\ead{support@elsevier.com}
 
-\address[mymainaddress]{1600 John F Kennedy Boulevard, Philadelphia}
-\address[mysecondaryaddress]{360 Park Avenue South, New York}
+%\address[mymainaddress]{1600 John F Kennedy Boulevard, Philadelphia}
+%\address[mysecondaryaddress]{360 Park Avenue South, New York}
+
+\author{Jens Getreu}
+\author{Olaf Maennel}
+\address{Tallinn University of Technology, Ehitajate tee 5, 19086 Tallinn,
+Estonia} 
 
 \begin{abstract}
 Within the framework of this study the suitability of the \emph{Rust} ecosystem
 for forensic tool development is evaluated.  The development of a forensic tool
-named \emph{Strings­ext}\cite{getreu2016a}\cite{getreu2017} serves as a case
+named \emph{Strings­ext}\cite{getreu2017a}\cite{getreu2017} serves as a case
 study.  Starting from analysing the specific requirements of forensic software
 in general and those of the present case study, all stages of the software
-development life-cycle have been executed, up to the first production release.
+development life-cycle have been executed.
 \emph{Strings­ext} is a reimplementation and enhancement of the
 \emph{GNU-strings} tool, a widely used program in forensic investigations.
 \emph{Strings­ext} recognizes Cyrillic, CJKV East Asian characters and other
@@ -172,8 +178,10 @@ of the resulting \emph{Strings­ext} binaries comparable to the original
 
 
 \begin{keyword}
-\texttt{elsarticle.cls}\sep \LaTeX\sep Elsevier \sep template
-\MSC[2010] 00-01\sep  99-00
+
+Forensic analysis, string search, multibyte encoding, Rust
+language, \texttt{Stringsext}-tool
+
 \end{keyword}
 
 \end{frontmatter}
@@ -192,47 +200,37 @@ of the resulting \emph{Strings­ext} binaries comparable to the original
 
 
 Most human interaction with electronic devices leaves traces in some electronic
-memory. In cases the user does not directly communicate with its device
-additional traces may also be found in all intermediate (network) devices. Due
-to the cross-linked nature of computer systems the total amount of data that
-needs to be taken into consideration when investigating a crime is enormous. In
-this ocean of information the investigator has to find specific drops of
-information constituting digital evidences. 
+memory. Even when the user does not directly communicate with the endpoint
+device, traces may be found in all intermediate (network) devices. Due to the
+cross-linked nature of computer systems the data that needs to be taken into
+consideration when investigating a crime is enormous. In this huge amount of
+information the investigator has to find those specific bits of information
+constituting digital evidences. 
 
 In the domain of digital forensics an electronic trace (observation) with a
-well-known cause-effect-relationship between this observation (effect) and the
-human action causing it, is a so called \textbf{artefact}.  \footnote{For the
-sake of simplicity in this introduction, we present a rather simplistic view
-associating univocally one trace (artefact/observation) with only one possible
-cause/activity. In the physical world, one trace/observation has normally
-several possible causes which cannot be excluded a priori. For this reason
-modern forensics favours the \emph{Likelihood Ratio} approach, in which the
-degree of support of the observations for the hypotheses is considered,
-providing a strength of evidence (diagnostic value) that is relative to the
-hypotheses tested.}
-It embodies any ``item of
-interest that helps an investigation move forward.'' \footnote{
-\cite[p. 125]{harichandran2016}. A more formal definition named \emph{Curated
-(digital) Forensic Artefact (CuFA)} proposed in \cite[p. 131]{harichandran2016}
-embraces that it must:
-
-\begin{itemize}
-\item be curated via a procedure which uses forensic techniques.
-\item have a location in a useful format (when applicable).
-\item have evidentiary value in a legal proceeding.
-\item be created by an external force/artificially.
-\item have antecedent temporal relation/importance.
-\item be exceptional (based on accident, rarity, or personal interest).
-\end{itemize}
-}
+well-known cause-effect-relationship between the observation and the human
+action causing it (activity), is a so called \textbf{artefact}.  \footnote{For
+the sake of simplicity we present here a rather simplistic view associating
+univocally one trace (artefact/observation) with only one possible
+cause/activity. In the physical world, one trace might have several possible
+causes which cannot be excluded a priori. For this reason modern forensics
+favours the \emph{Likelihood Ratio} approach, in which the degree of support of
+the observations for the hypotheses is considered, providing a strength of
+evidence (diagnostic value) that is relative to the hypotheses tested.} It
+embodies any ``item of interest that helps an investigation move forward.''
+\cite[p. 125]{harichandran2016}\footnote{Cf. Harichandran \cite[p.
+131]{harichandran2016} who proposed a more formal definition: A \emph{Curated
+(digital) Forensic Artefact (CuFA)} ''must have evidentiary value in a legal
+proceeding, must be created by an external force/artificially, must have
+antecedent temporal relation/importance and must be exceptional (based on
+accident, rarity, or personal interest)[...]``.}.
 
 Forensic examiners - the law enforcement personnel who deal with 
 digital evidence - face inter alia two challenges: to collect and to 
 preserve the huge amount of data that may be related to a crime and to 
 search and detect artefacts in the collected data.
 
-
-The latter aspect includes the so called \emph{string search} which is useful
+The latter aspect implies the so called \emph{string search} which is useful
 when dealing with unknown binary data. Most binary data contain human readable
 character sequences called strings. A very commonly used program to extract
 strings from a binary data is the so called \emph{GNU-strings} program. The
@@ -241,14 +239,22 @@ same purpose. The new development is designed to overcome some of
 \emph{GNU-strings} shortcomings. Where possible, it maintains
 \emph{GNU-strings'} user-interface.
 
+In the following section we analyse general tool requirements in digital 
+forensics. Together with the shortcomings of the original  
+\emph{GNU-strings} tool, it become obvious that the C++ programming language
+does not satisfy the indispensable security requirements in the field of
+forensic software. The section \emph{}
+
+
+
 \section{Tool Requirements in Digital Forensics}
 \label{sec:tool-requirements}
 
 \subsection{Multi-byte character encoding support}
 \label{subsec:tool-validation}
 
-Like in other established forensic disciplines the forensic soundness or
-reliability of digital evidence is determined by the validity and correctness of
+Like in other established forensic disciplines the forensic soundness and
+reliability of digital evidence depend on the validity and correctness of the
 forensic software used in examination. In other words, to guarantee that the
 digital evidence is forensically sound, all tools used to collect, preserve and
 analyse digital evidences must be validated. Tool validation can also be
@@ -256,41 +262,45 @@ formally required to comply with standards like the \emph{ISO 17025 Laboratory
 Accreditation standard}.
 
 
-
 \begin{description}
 \item[Validation]
     is the confirmation by examination and the provision of objective
     evidence that a tool, technique or procedure functions correctly and as
-    intended.
-\item[Verification]
-    is the confirmation of a validation with a laboratories tools,
-    techniques and procedures \cite[p. 92]{craiger2006}.
-    \footnote{It should be noted that the forensic 
-	community's definition of \emph{validation} and \emph{verification} 
-	differs from what is used in software engineering.}
+    intended.\cite[p. 92]{craiger2006}.
 \end{description}
 
-In other words, insuring that a technical procedure is suitable to observe a 
-cause and effect relation between a human action and a resulting 
-artefact is called \emph{validation}. The test, whether a technical 
-device is suitable or not to execute the above method reliably, is 
-called \emph{verification}.
 
 One way of establishing a set of requirements for a new forensic tool is to
-analyse how similar tools are verified. Beckett and Slay \cite{beckett2007}
-suggest a model so called \emph{Model of tool neutral testing} or
-\emph{functionality oriented validation}. Instead of testing if a software
-product meets all its requirements, an independent set of forensic functions and
-their specifications is defined. This allows to decouple the validation
-procedure from the implementation of the forensic tool itself. A forensic
-function is an activity required in forensic investigation that produces known
-valid results for a given set of test cases.  For example, Figure
-\ref{the-search-target-mapping} \cite[p. 17]{beckett2007} shows the search target
-mapping, a property of the general \emph{search function}. The subcategory
+analyse how similar existing tools are validated. Beckett and Slay
+\cite{beckett2007} propose a \emph{functionality oriented validation} method
+called \emph{Model of tool neutral testing}. Instead of testing if a software
+product meets all its requirements, an independent set of forensic functions is
+defined and later tested. The digital forensic discipline can be broadly defined
+in terms of the key functions \emph{Identification, Data Preservation, Data
+Analysis and Presentation of Digital Evidence}. Each key function is further
+divided into subcategories. For example \emph{Data Analysis} breaks down into:
+\emph{Searching, File Rendering, Data Recovery, Decryption, Identification,
+Processing, Temporal Data} and \emph{Process Automation}.  The first item
+\emph{searching} relates to finding and locating the information of interest in
+digital memories. Form a functional point of view the \emph{searching} falls
+into the searching domain (where), the searching mode (how) and the searching
+target (what). The breakdown of forensic functions into detailed categories
+allows to decouple the validation procedure from the implementation of the
+forensic tool itself. Based on this categorisation, independent test
+environments are set up for each specific function. For example a
+test may certify if the software is able to run a fuzzy search for strings in
+the unallocated disk space.
+
+Beyond validation, the categorisation of forensic functions is also helpful to
+analyse existing tools - in our case \emph{GNU strings} - in oder to define
+requirements for improvement.  For example, \emph{Searching} can be further
+classified into groups as shown in the Figure \ref{the-search-target-mapping}
+\cite[p. 17]{beckett2007}. The leaves in the diagram list capabilities a
+\emph{Searching}-software can implement.  For example the subcategory
 ``Character encoding'' illustrates the main deficit of \emph{GNU-strings} as it
-supports only ASCII encoding. In global cyberspace, forensic tools must identify
-a multitude of encodings. This leads us to the main motivation and requirement
-of \emph{Strings­ext}: \emph{multibyte character encoding support}.
+supports only ASCII encoding. In a global cyberspace, forensic tools must
+identify a multitude of encodings. This leads us to the main motivation and
+requirement of \emph{Strings­ext}: \emph{multibyte character encoding support}.
 
 \begin{figure}[htbp]
 \centering
@@ -300,30 +310,36 @@ of \emph{Strings­ext}: \emph{multibyte character encoding support}.
 \end{figure}
 
 The \emph{functionality oriented validation} can be classified as ``black box
-testing'' examining functionality without any knowledge of internal
-implementation, without seeing the source code. ``Black box testing'' of
-functions and their specifications allows conducting numerous tests with
-acceptable costs. This requires test cases with known valid results. With
-\emph{Strings­ext} this approach is used to test the correctness of the
-implementation when dealing with large real-world data.
-In addition, Rust's build in test harness \emph{unit tests} in conjunction
-with the \emph{test driven development} method is chosen for the
-\emph{Stringsext} project.
+testing'' examining functionality without any knowledge of the internal
+implementation, even without having access to the source code. One advantage is,
+that it allows to reuse the test environment thus reducing the costs. Black box
+testing is sometimes also referred as ``behavioural testing'' as it feeds the
+tool with a known test case data and observes if the tool outputs the expected
+results. In the context of this work black box testing is used to assert that
+the new tool \emph{Stringsext} deals correctly with big real-world input data:
+\emph{Stringsext} has been designed to produce, as a special case, bit-identical
+output to that of \emph{GNU-strings}.  This way the comparison of the output
+data of both tools allowed to confirm that \emph{stringsext} is working
+correctly when dealing with big data. 
+
+In addition to the above black box testing, Rust's build in test harness (unit
+test) is used in conjunction with the \emph{test driven development} in order
+to guarantee maximum security and correctness of the developed tool.
 
 
 
 \subsection{Security}
 \label{subsec:security1}
 
-The relation between the criminal and the forensic examiner can be described as
-follows: ``Make it hard for them to find you and impossible for them to prove
-they found you'' \cite{berinato2007}. Have you recognized the statement? Is
-widely cited when it comes to define anti-forensics. This traditional 
-"hide-and-seek" relation might soon take a new dimension: Eggendorfer
-\cite{eggendorfer2016} stresses with good reasons that forensic tools are
-software too and therefor vulnerable to attacks. A vulnerability found in 2017
-in a common forensic tool \emph{EnCase Forensic Imager} demonstrates exemplary
-the pertinence of the risk \cite{secconsult2017}: 
+
+``Make it hard for them to find you and impossible for them to prove they found
+you'' \cite{berinato2007}. This saying describes with striking simplicity the
+relation between the criminal and the forensic investigator.  In digital
+forensics this "hide-and-seek" relation might soon take a new dimension:
+Eggendorfer \cite{eggendorfer2016} stresses with good reasons that forensic
+tools are software too and therefor vulnerable to attacks. A vulnerability found
+in 2017 in a common forensic tool \emph{EnCase Forensic Imager} demonstrates
+exemplary the pertinence of the risk \cite{secconsult2017}: 
 
 \begin{quote}
     \emph{By writing a manipulated LVM2 partition (a hard disk format commonly
@@ -519,7 +535,7 @@ language like Java for most forensic tool development.
 
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{ | l  p{9cm} | }
+\begin{tabular}{ | l  p{6.5cm} | }
 \hline
 CWE	& ID Name \\ \hline
 \hline
@@ -585,11 +601,11 @@ out of scope it is immediately destroyed.
 \begin{center}
 \begin{tabular}{ | l | l | l | l | }
 \hline
-    Resource sharing type & Aliasing & Mutation & Example \\
+    Resource sharing      & Aliasing & Mutation & Example \\
 \hline
-    move ownership        & no       & yes      & \texttt{let a = b} \\
-    shared borrow         & yes      & no       & \texttt{let a = \&b} \\
-    mutable borrow        & no       & yes      & \texttt{let a = \&mut b} \\
+    move ownership        & no       & yes      & \texttt{let a=b} \\
+    shared borrow         & yes      & no       & \texttt{let a=\&b} \\
+    mutable borrow        & no       & yes      & \texttt{let a=\&mut b} \\
 \hline
 \end{tabular}
 \end{center}
@@ -667,7 +683,7 @@ Index'' (cf. Table
 
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{ | l | l | l | l | }
+\begin{tabular}{ | l  p{6.5cm} | }
 \hline
 CWE ID & Name \\
 \hline
@@ -759,7 +775,7 @@ showed that Rust's core properties \emph{zero cost abstractions} and
 
 But how well is the Rust ecosystem suited for forensic tool development?  To
 evaluate the practical aspects of Rust we developed the tool \emph{Stringsext}
-\cite{getreu2016a}\cite{getreu2017}. The technical challenges such as concurrent
+\cite{getreu2017a}\cite{getreu2017}. The technical challenges such as concurrent
 batch processing of multi-byte character streams are sufficiently complex to
 deduce general recommendations for forensic-tool development.
 
@@ -1034,9 +1050,9 @@ Eggendorfer, T.: {{IT}} forensics. {{Why}} post-mortem is dead. {{Cyber
 Fulgham, B., Gouy, I.: Computer {{Language Benchmarks Game}}: {{C}}++
   versus~{{Rust}} (Oct 2016), \url{http://benchmarksgame.alioth.debian.org}
 
-\bibitem{getreu2016a}
+\bibitem{getreu2017a}
 Getreu, J.: Stringsext, a {{GNU Strings Alternative}} with
-  {{Multi}}-{{Byte}}-{{Encoding Support}} (Jan 2016),
+  {{Multi}}-{{Byte}}-{{Encoding Support}} (Sep 2017),
   \url{https://github.com/getreu/stringsext}
 
 \bibitem{getreu2017}
