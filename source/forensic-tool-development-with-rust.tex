@@ -224,11 +224,10 @@ proceeding, must be created by an external force/artificially, must have
 antecedent temporal relation/importance and must be exceptional (based on
 accident, rarity, or personal interest)[...]``.}.
 
-Forensic examiners - the law enforcement personnel who deal with 
-digital evidence - face inter alia two challenges: to collect and to 
+Forensic examiners, the law enforcement personnel who deal with 
+digital evidence, face inter alia two challenges: to collect and to 
 preserve the huge amount of data that may be related to a crime and to 
 search and detect artefacts in the collected data.
-
 The latter aspect implies the so called \emph{string search} which is useful
 when dealing with unknown binary data. Most binary data contain human readable
 character sequences called strings. A very commonly used program to extract
@@ -240,7 +239,7 @@ same purpose. The new development is designed to overcome some of
 
 In the following section we analyse general tool requirements in digital 
 forensics. Together with the shortcomings of the original  
-\emph{GNU-strings} tool, it become obvious that the C++ programming language
+\emph{GNU-strings} tool, it becomes obvious that the C++ programming language
 does not satisfy the indispensable security requirements in the field of
 forensic software. The section \emph{}
 
@@ -291,7 +290,7 @@ test may certify if the software is able to run a fuzzy search for strings in
 the unallocated disk space.
 
 Beyond validation, the categorisation of forensic functions is also helpful to
-analyse existing tools - in our case \emph{GNU strings} - in oder to define
+analyse existing tools — in our case \emph{GNU strings} — in oder to define
 requirements for improvement.  For example, \emph{Searching} can be further
 classified into groups as shown in the Figure \ref{the-search-target-mapping}
 \cite[p. 17]{beckett2007}. The leaves in the diagram list capabilities a
@@ -342,8 +341,8 @@ the pertinence of the risk \cite{secconsult2017}:
 
 \begin{quote}
     \emph{By writing a manipulated LVM2 partition (a hard disk format commonly
-    used for Linux servers) on a storage device, an attacker could - if the
-    device were ever to be analysed using EnCase Forensic Imager - take over an
+    used for Linux servers) on a storage device, an attacker could — if the
+    device were ever to be analysed using EnCase Forensic Imager — take over an
     investigator's machine. When the investigator tries to read the device,
     EnCase Forensic Imager crashes - unbeknownst to the investigator, however, a
     lot more is happening. Through a buffer overflow security flaw, EnCase
@@ -420,7 +419,7 @@ often an indicator of malware activity. Also, user prompts, error
 messages, and status messages can give valuable hints.
 
 
-\subsection{Test case - International character encodings}
+\subsection{International character encodings}
 \label{subsec:test-case-strings}
 
 As discussed above the main motivation for developing \emph{Strings­ext} is the
@@ -444,7 +443,7 @@ text-file is then is converted into \texttt{UTF-8}, \texttt{UTF-16LE},
 file.  In order to observe \emph{GNU-strings} Unicode detection capabilities,
 all the test-files are then searched for valid graphic strings with the command
 \texttt{strings} using all possible variation of its encoding filter.  The
-Figure \ref{fig:strings-e-l} shows exemplary \emph{GNU-strings} output for an
+Figure \ref{fig:strings-e-l} shows exemplary \emph{GNU-strings} output for a
 UTF-16 little endian encoded input.
  
 
@@ -598,7 +597,7 @@ time. In contrast to other languages, \emph{Rust}'s semantics allow the type
 system to ensure \emph{at compile time} that simultaneous aliasing and mutation
 mutually exclude each other (cf. Table \ref{tab:resource-sharing-in-rust}). As
 the check is performed at compile-time, no run-time code is necessary.
-Furthermore, \emph{Rust} does not need a garbage collector: when owned data goes
+Furthermore, \emph{Rust} does not need a garbage-collector: when owned data goes
 out of scope it is immediately destroyed.
 
 \begin{table}[htbp]
@@ -623,7 +622,7 @@ issues. The function \texttt{as\_str} returns a pointer to a stack allocated
 resource \texttt{s} that is freed at the end of the function: we find ourselves
 with a ``Use after free'' condition! The compiler aborts with the error message
 \texttt{s\ does\ not\ live long\ enough}.
-i
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{fn} \NormalTok{as_str(data: &}\DataTypeTok{u32}\NormalTok{) -> &}\DataTypeTok{str} \NormalTok{\{}
@@ -828,7 +827,7 @@ characters are found correctly.
 \end{figure}
 
 
-
+%\iffalse
 \subsection{Deterministic reproducible output}\label{_reproducible_output}
 
 Concurrent computing gives no guarantee in which order partial-output is
@@ -847,7 +846,7 @@ the results are listed changes unpredictably!
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.6\linewidth]{images/non-reproducible-output.png}
-\caption{Output of non deterministic algorithm}
+\caption{Output of non-deterministic algorithm}
 \label{fig:non-reproducible-output}
 \end{figure}
 
@@ -864,26 +863,7 @@ first.
 \caption{Output of deterministic algorithm}
 \label{fig:reproducible-output}
 \end{figure}
-
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
-TODO  
+%\fi
 
 
 \section{Development process evaluation}\label{_development_process_evaluation}
@@ -903,12 +883,12 @@ fulfil legal requirements forensic tools must be extensively tested.
 
 The present case study confirms our initial hypothesis that Rust addresses these
 requirements: Rust, as system programming language, is designed for code
-efficiency. Rust's security guaranties comprise memory safety, the cause for a
+efficiency. In addtition Rust guarantees memory safety, the cause for a
 common category of vulnerabilities. It's build in unit testing feature supports
 \emph{software verification} as defined in the Section
 \ref{subsec:tool-validation}.
 
-Guaranteed memory safety is a core property of Rust's borrow checker:
+Memory safety is checked at compile time by Rust's borrow checker:
 When a Rust source code compiles, the resulting binary \emph{is}
 guaranteed to be memory safe. In consequence, such a binary is immune to
 memory safety related attacks: e.g. out-of-bounds read, buffer
@@ -917,12 +897,12 @@ index, improper release of memory before removing last, double free, use
 after free. As \emph{Strings­ext} and all its used libraries are solely
 Rust components, \emph{Strings­ext} is memory safe.
 
-We compared the code efficiency of \emph{GNU-strings} implemented in C
-and \emph{Strings­ext} implemented in Rust: When \emph{Strings­ext} is
-run in ASCII-only mode, both produce the same output. The field
-experiment yielded the expected result, 2.4 times slower but still on
-the same scale. However, \emph{Stringsext's} design implies much more
-complex computations, hence the result is not surprising.
+We compared the code efficiency of \emph{GNU-strings} implemented in C and
+\emph{Strings­ext} implemented in Rust: When \emph{Strings­ext} is run in
+ASCII-only mode, both produce bit-identical output. The field experiment yielded
+the expected result: even though \emph{Stringsext's} 2.4 times slower but the
+speed still on the same scale. However, \emph{Stringsext's} design implies much
+more complex computations, hence the result is not surprising.
 
 How about the efficiency of Rust's abstractions and its overall performance? A
 good estimation is to compare benchmarks of small and simple programs. Too
@@ -934,34 +914,30 @@ benchmark results.
 Forensic tools have to operate on many architectures. Here enters Rust's
 cross-compiling feature on scene.  As \emph{Rust} uses the LLVM framework as
 backend, it is available for most platforms. \texttt{rustc --print target-list}
-lists 26 compiler targets.
+lists 80 compiler targets (\texttt{rustc} version 1.27).
 
-As described above, Rust's memory safety guarantee is a huge improvement in
+As discussed above, Rust's memory safety guarantee is a huge improvement in
 terms of security because a whole category of potential vulnerabilities can be
-ruled out from the outset. But memory safety does not mean bug freeness! Beside
-the security aspects discussed above, the correctness of forensic software is
-crucial (cf. Section \ref{subsec:tool-validation}). It is clear that the overall
-correctness of a program depend also on the correctness of every library used.
-Hence, the question arises whether the Rust ecosystem is mature enough to meet
-the ambitious requirements of forensic software. Indeed, compared to C, Rust's
-libraries are relatively young. Here again extensive unit testing revealed to be
-a helpful diagnostic method: version 0.4.16 of the brand new \texttt{kmerge}
-function, part of the \texttt{itertools} library used in \emph{Strings­ext},
-reversed under rare conditions the first and second finding. This bug was
-actually fixed with pull request \#135 (2. Aug.  2016) some days after its
-appearance. Although the bug-fix was already committed in Github, the package
-manager did not know about it, because no new version of \texttt{itertools} was
-released yet. On the whole, a little change in the package reference list
-\texttt{Cargo.toml} solved the problem immediately. Finally, it took another
-week for the corrected \texttt{itertools} version to be released. So far this
-was the only time we encountered a bug in any of the used libraries. One
+ruled out from the outset. However, memory safety does not mean bug freeness!
+Beside the security aspects discussed above, the correctness of forensic
+software is crucial (cf. Section \ref{subsec:tool-validation}). It is clear that
+the overall correctness of a program depend also on the correctness of every
+library used.  Hence, the question arises whether the Rust ecosystem is mature
+enough to meet the ambitious requirements of forensic software. Indeed, compared
+to C, Rust's libraries are relatively young. Here again extensive unit testing
+revealed to be a helpful diagnostic method: for example of the first versions
+0.4.16 of the \texttt{kmerge} function, part of the \texttt{itertools} library
+used in \emph{Strings­ext}, reversed under rare conditions the first and second
+finding. Unit testing revealed a bug in \texttt{itertools} which was fixed some
+days after its appearance with pull request \#135 (2. Aug.  2016). So far this
+was the only time we encountered a bug in the used libraries. One
 conclusion we can draw from this experience, is that young libraries are more
 likely to have bugs than established ones. It cannot be emphasised enough that,
-diligent unit tests help to find most bugs at early state. Also, those present in
-external libraries. However, unit testing do not help against memory safety
+diligent unit tests help to find most bugs at early state. Also, those present
+in external libraries.  However, unit testing do not help against memory safety
 related vulnerabilities, which are typical for C and C++ programs and which can
-persist in software for decades. It is incumbent on readers to form their own
-opinion, We largely prefer accepting the greater likelihood of manageable bugs
+persist in software for decades. Taking into account the benefits and drawbacks
+we largely prefer accepting the greater likelihood of manageable bugs
 related to young Rust libraries, than the uncertainty of hidden memory safety
 related vulnerabilities typical for \emph{C} and \emph{C++}.
 
@@ -979,7 +955,7 @@ Finally, we recognize the benefits of \emph{unit testing} throughout this work.
 For this reason we chose for this project the \emph{test driven development}
 method where \emph{unit testing} is the key element. Contrary to other methods,
 in \emph{test driven development} unit tests and the to be tested code is always
-programmed by the same person, which fits well the setting of this project.
+programmed by the same person, which fitted well the setting of this project.
 However, other methods may be as suitable depending on the organisational
 structure of the programmer team.
 
@@ -989,14 +965,13 @@ structure of the programmer team.
 The use case ``development of the \emph{Stringsext}-tool'' shows that Rust was a
 good choice for the present project, even though batch processing of multi-bytes
 character streams revealed to be far more complex than expected.  Additionally,
-concurrent programming in Rust posed a formidable hurdle at the beginning.
-Fortunately, it did prove to be helpful to contact the Rust community for their
-friendly assistance. In addition, for a not so experienced Rust programmer it is
-reassuring to know that when a complex piece of code finally compiles, it is
-memory safe. The same reasoning applies when a programmer has to refactor
-existing code. ``We often had a queasy feeling when we had to work on other
-people's C code.'' ``Do we free the memory at the right moment? Is this pointer
-still valid?'' Rust's ownership paradigm resolves this uncertainty. When it
+concurrent programming in Rust posed a hurdle at the beginning.  Fortunately,
+the friendly Rust community helped to overcome occasional technical obstacles
+quickly. In addition, for a not so experienced Rust programmer it is reassuring
+to know that when a complex piece of code finally compiles, it is memory safe.
+The same applies to common settings when a programmer has to refactor existing
+code. Rust clears away doubts like ``Do I free the memory at the right moment?
+Is this pointer still valid?'' with its build in borrow checker: When it
 compiles, then it is memory safe. Furthermore, Rust is especially suitable for
 bigger projects where several programmers contribute to the same code. And this
 is particularly true when developing forensic software with its high quality
@@ -1012,8 +987,9 @@ the test code and the to be tested code can be validated in one go.
 
 \emph{Strings­ext} is currently in production state and can be used in forensic
 investigations as a \emph{GNU strings} replacement. It is especially useful
-where \emph{GNU-strings} fails: for example it allows finding UTF-16 multi-byte
-characters in memory images. 
+where \emph{GNU-strings} fails: it allows finding UTF-16 multi-byte
+characters in memory images and supports other multi-byte encodings like
+\emph{big5} or \emph{koi8-r}. 
 
 \bibliographystyle{splncs03}
 %\bibliography{references}
