@@ -580,11 +580,11 @@ compile time:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  All resources (everything that can be bound to a variable, e.g.
-  vectors etc.) have a sole owner.
+  All resource (everything that can be bound to a variable, e.g.
+  integers, vectors, structures) has a unique owner.
 
 \item Others can borrow from the owner (technically borrowing means that another
-scope sets a pointer to the owner's ressource). 
+scope sets a pointer to the owner's resource). 
 
 \item
   The owner cannot free or mutate the resource while it is borrowed.
@@ -592,13 +592,14 @@ scope sets a pointer to the owner's ressource).
 
 By enforcing the above rules \emph{Rust} organizes how resources are shared
 among different scopes. Memory problems occur for instance when a resource is
-referenced by multiple pointers (aliasing) and when it is mutable at the same
-time. In contrast to other languages, \emph{Rust}'s semantics allow the type
-system to ensure \emph{at compile time} that simultaneous aliasing and mutation
-mutually exclude each other (cf. Table \ref{tab:resource-sharing-in-rust}). As
-the check is performed at compile-time, no run-time code is necessary.
-Furthermore, \emph{Rust} does not need a garbage-collector: when owned data goes
-out of scope it is immediately destroyed.
+referenced by multiple pointers (aliasing) and when more than one pointer writes
+to the same memory at the same time (mutation). In contrast to other languages,
+\emph{Rust}'s semantics allow the type system to ensure \emph{at compile time}
+that simultaneous aliasing and mutation mutually exclude each other (cf. Table
+\ref{tab:resource-sharing-in-rust}). As the check is performed at compile-time,
+no run-time code is necessary.  Furthermore, \emph{Rust} does not need a
+garbage-collector: when owned data goes out of scope it is immediately
+destroyed.
 
 \begin{table}[htbp]
 \begin{center}
