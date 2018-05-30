@@ -813,11 +813,13 @@ handle international character encodings. Does \emph{Strings­ext}
 support foreign scripts better? Is it as fast?
 
 To evaluate \emph{Strings­ext}'s capabilities to handle international scripts
-with Unicode, we choose the same input text file we used with
-\emph{GNU-strings} in the Section, \ref{subsec:test-case-strings} Figure
+with Unicode, we choose the same input text file we used with \emph{GNU-strings}
+in the Section, \ref{subsec:test-case-strings} Figure
 \ref{fig:test-international-character-encodings}. \emph{Stringsext}'s output
 (cf. Figure \ref{fig:stringsext-s-output}) confirms that all international
-characters are found correctly.  
+characters are found correctly.  How \emph{Strings­ext}'s formats its output
+when it operates in simultaneous multi-encoding scanning mode, is shown in
+Figure \ref{fig:reproducible-output}.
 
 
 \begin{figure}[htbp]
@@ -828,7 +830,7 @@ characters are found correctly.
 \end{figure}
 
 
-%\iffalse
+\iffalse
 \subsection{Deterministic reproducible output}\label{_reproducible_output}
 
 Concurrent computing gives no guarantee in which order partial-output is
@@ -858,13 +860,16 @@ finding. The Figure \ref{fig:reproducible-output} shows the result.  Please note
 that for all identical positions the ASCII-scanner result is always listed
 first.
 
+\fi
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.6\linewidth]{images/reproducible-output.png}
-\caption{Output of deterministic algorithm}
+%\caption{Output of deterministic algorithm}
+\caption{Stringsext's output in multi-encoding scanning mode}
 \label{fig:reproducible-output}
 \end{figure}
-%\fi
+
 
 
 \section{Development process evaluation}\label{_development_process_evaluation}
