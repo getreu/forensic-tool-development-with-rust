@@ -241,7 +241,7 @@ In the following section we analyse general tool requirements in digital
 forensics. Together with the shortcomings of the original  
 \emph{GNU-strings} tool, it becomes obvious that the C++ programming language
 does not satisfy the indispensable security requirements in the field of
-forensic software. The section \emph{}
+forensic software. 
 
 
 
@@ -256,7 +256,7 @@ reliability of digital evidence depend on the validity and correctness of the
 forensic software used in examination. In other words, to guarantee that the
 digital evidence is forensically sound, all tools used to collect, preserve and
 analyse digital evidences must be validated. Tool validation can also be
-formally required to comply with standards like the \emph{ISO 17025 Laboratory
+formally required by standards like the \emph{ISO 17025 Laboratory
 Accreditation standard}.
 
 
@@ -279,10 +279,10 @@ Analysis and Presentation of Digital Evidence}. Each key function is further
 divided into subcategories. For example \emph{Data Analysis} breaks down into:
 \emph{Searching, File Rendering, Data Recovery, Decryption, Identification,
 Processing, Temporal Data} and \emph{Process Automation}.  The first item
-\emph{searching} relates to finding and locating the information of interest in
+\emph{searching} relates to finding and locating information of interest in
 digital memories. Form a functional point of view the \emph{searching} falls
 into the searching domain (where), the searching mode (how) and the searching
-target (what). The breakdown of forensic functions into detailed categories
+target (what). This breakdown of forensic functions into detailed categories
 allows to decouple the validation procedure from the implementation of the
 forensic tool itself. Based on this categorisation, independent test
 environments are set up for each specific function. For example a
@@ -290,15 +290,15 @@ test may certify if the software is able to run a fuzzy search for strings in
 the unallocated disk space.
 
 Beyond validation, the categorisation of forensic functions is also helpful to
-analyse existing tools — in our case \emph{GNU strings} — in oder to define
-requirements for improvement.  For example, \emph{Searching} can be further
-classified into groups as shown in the Figure \ref{the-search-target-mapping}
-\cite[p. 17]{beckett2007}. The leaves in the diagram list capabilities a
-\emph{Searching}-software can implement.  For example the subcategory
-``Character encoding'' illustrates the main deficit of \emph{GNU-strings} as it
-supports only ASCII encoding. In a global cyberspace, forensic tools must
-identify a multitude of encodings. This leads us to the main motivation and
-requirement of \emph{Strings­ext}: \emph{multibyte character encoding support}.
+define requirements for improvement existing tools — in our case \emph{GNU
+strings}. For example, \emph{Searching} can be further classified into groups as
+shown in the Figure \ref{the-search-target-mapping} \cite[p. 17]{beckett2007}.
+The leaves in the diagram list typical capabilities a \emph{Searching}-software
+can implement.  For example the subcategory ``Character encoding'' illustrates
+the main deficit of \emph{GNU-strings} as it supports only ASCII encoding. In a
+global cyberspace, forensic tools must identify a multitude of encodings. This
+leads us to the main motivation and requirement of \emph{Strings­ext}:
+\emph{multibyte character encoding support}.
 
 \begin{figure}[htbp]
 \centering
@@ -309,10 +309,10 @@ requirement of \emph{Strings­ext}: \emph{multibyte character encoding support}.
 
 The \emph{functionality oriented validation} can be classified as ``black box
 testing'' examining functionality without any knowledge of the internal
-implementation, even without having access to the source code. One advantage is,
+implementation, even without having access to the source code. Its advantage is,
 that it allows to reuse the test environment thus reducing costs. Black box
 testing is sometimes also referred as ``behavioural testing'' as it feeds the
-tool with a known test case data and observes if the tool outputs the expected
+tool with known test case data and observes if the tool outputs the expected
 results. In the context of this work black box testing is used to assert that
 the developed tool \emph{Stringsext} deals correctly with big real-world input
 data: \emph{Stringsext} has been designed to produce, as a special case,
@@ -363,9 +363,9 @@ neglected despite its potential impact:
 
 \begin{itemize} 
 
-    \item The adversary can be warned about an ongoing investigation.
+    \item The adversary may be warned about an ongoing investigation.
 
-    \item The adversary can gain control of the investigator's machine
+    \item The adversary may gain control of the investigator's machine
         and alter evidences.
 
 \end{itemize}
@@ -383,18 +383,18 @@ data-carrier. Nowadays hard-disk images hold several TiB of data.  Memory images
 of the RAM are smaller, but still some GiB in size. In order to address so big
 search domains, forensic software must operate very efficiently. This is why
 forensic software is often programmed in C or C++. But not only the programming
-language matters: Efficient code requires carefully chosen abstractions,
+language matters: Efficient code also requires carefully chosen abstractions,
 efficient algorithms avoiding unnecessary data-copies and program-loops.
 Concerning the choice of the programming language we define the following
-requirements. The programming language 
+requirements: The programming language must
 
 \begin{itemize}
 \item
-  allows a fine control over pointers and memory allocation,
+  allow a fine control over pointers and memory allocation,
 \item
-  offers zero cost abstractions,
+  offer zero cost abstractions,
 \item
-  has no or minimal runtime.
+  have no or minimal runtime.
 \end{itemize}
 
 
@@ -415,7 +415,7 @@ Many forensic practitioners  use the GNU program \emph{strings}, hereafter
 referred as \emph{GNU strings}, to get a sense of the functionality of an
 unknown program by extracting human readable strings from binary data. Of
 special interest are for example strings containing URLs to malicious sites,
-often an indicator of malware activity. Also, user prompts, error
+often an indicator of malware activity. But also, user prompts, error
 messages, and status messages can give valuable hints.
 
 
@@ -437,8 +437,8 @@ file chosen as test case.
    \label{fig:test-international-character-encodings}
 \end{figure}
 
-To find out how well \emph{GNU Strings} deals with different encodings, the
-text-file is then is converted into \texttt{UTF-8}, \texttt{UTF-16LE},
+To find out how well \emph{GNU Strings} deals with different Unicode encodings,
+the text-file is then is converted into \texttt{UTF-8}, \texttt{UTF-16LE},
 \texttt{UTF-16BE}, \texttt{UTF-32LE} and \texttt{UTF-32BE}, each encoding in one
 file.  In order to observe \emph{GNU-strings} Unicode detection capabilities,
 all the test-files are then searched for valid graphic strings with the command
@@ -478,7 +478,7 @@ In the narrow sense, ``secure coding'' is rather a design goal than a functional
 requirement. Secure coding denotes the practice of developing computer software
 by reducing the accidental introduction of security vulnerabilities 
 by preventing coding errors or discovering and eliminating
-security flaws during implementation and testing.  From the code security point
+security flaws during implementation and testing.  From the secure coding point
 of view the requirement \emph{character encoding support} is the most critical:
 The NIST \emph{National Vulnerability Database} lists under the heading
 ``character encoding'' 22 vulnerabilities.  Not only new complex forensic
@@ -505,7 +505,7 @@ but users remain confused and bewildered.
 Of particular importance is that the above bugs are part of a vulnerability
 class related to memory safety problems. \emph{GNU strings} is written in C, a
 language whose abstractions can not guarantee memory safety. In order to exclude
-potential vulnerabilities of the same kind from the start, \emph{Strings­ext}
+potential vulnerabilities of the same kind from the outset, \emph{Strings­ext}
 was developed in the \emph{Rust} programming language.
 
 
@@ -628,20 +628,20 @@ with a ``Use after free'' condition! The compiler aborts with the error message
 \begin{Highlighting}[]
 \KeywordTok{fn} \NormalTok{as_str(data: &}\DataTypeTok{u32}\NormalTok{) -> &}\DataTypeTok{str} \NormalTok{\{}
       \KeywordTok{let} \NormalTok{s = }\PreprocessorTok{format!}\NormalTok{(}\StringTok{"\{\}"}\NormalTok{, data);}
-      \NormalTok{&s}
+      \NormalTok{return &s}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
-\noindent
-Here the corrected memory safe code:
+\noindent Here the corrected memory safe code performing a byte-copy at the end
+of the function.
 
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{fn} \NormalTok{as_str(data: &}\DataTypeTok{u32}\NormalTok{) -> }\DataTypeTok{String} \NormalTok{\{}
       \KeywordTok{let} \NormalTok{s = }\PreprocessorTok{format!}\NormalTok{(}\StringTok{"\{\}"}\NormalTok{, data);}
-      \NormalTok{s}
+      \NormalTok{return s}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -704,10 +704,11 @@ CWE ID & Name \\
 In addition to traditional imperative loop control structures, \emph{Rust}
 offers efficient iteration with functional style iterators.  Like in Haskell
 iterators are lazy and avoid allocating memory for intermediate structures (you
-allocate just when you call \texttt{.collect()}). Iterators considerably enhance
-the robustness and safety of programs. They enable the programmer to iterate
-through vectors without explicitly naming neither the index nor its bounds, thus
-avoiding related common mistakes. The Figure \ref{fig:cipher} shows an example.
+only allocate just when you call \texttt{.collect()}). Iterators considerably
+enhance the robustness and safety of programs. They enable the programmer to
+iterate through vectors without explicitly naming neither the index nor its
+bounds, thus avoiding common mistakes. The Figure \ref{fig:cipher} shows
+an example.
 
 
 \begin{figure}[htbp]
@@ -726,9 +727,6 @@ avoiding related common mistakes. The Figure \ref{fig:cipher} shows an example.
 \label{fig:cipher}
 \end{figure}
 
-It must be noted that even with iterators \emph{out of bounds}-errors may occur.
-Nevertheless, iterators should be preferred because they reduce the probability
-of errors related to indexes drastically.
 
 
 \subsection{Zero-Cost Abstractions}
@@ -773,10 +771,10 @@ showed that Rust's core properties \emph{zero cost abstractions} and
 \emph{memory safety} in theory meet well our requirements.
 
 But how well is the Rust ecosystem suited for forensic tool development? In
-order to evaluate the practical aspects of Rust we developed the tool
-\emph{Stringsext} \cite{getreu2017a}\cite{getreu2017}. The technical challenges
-such as concurrent batch processing of multi-byte character streams revealed to
-be sufficiently complex, thus allowing us to deduce general recommendations for
+order to evaluate also the practical aspects of Rust, the tool \emph{Stringsext}
+\cite{getreu2017a}\cite{getreu2017} was developed. The technical challenges such
+as concurrent batch processing of multi-byte character streams revealed to be
+sufficiently complex, thus allowing us to deduce general recommendations for
 forensic-tool development.
 
 
@@ -789,14 +787,13 @@ The Figure \ref{fig:data-processing-and-threads} shows the data flow in
 \emph{merger-printer} are designed as threads. Rust uses OS-level threads and
 its type and ownership model guarantees the absence of data races.  Rust
 supports by default two models of inter-thread communication: shared memory
-\footnote{Rust inherits C11's memory model for atomics} and message channels.
+and message channels.
 
 
-\emph{Stringsext} imports the crate \texttt{scoped\_threadpool} used to
-distribute the \emph{shared-memory} \texttt{input\_slice} to its
-scanner-threads. Once a scanner has accomplished its mission, it sends
-its result through a dedicated \emph{message channel} to the
-\emph{merger-printer}-thread.
+\emph{Stringsext} imports the crate \texttt{scoped\_threadpool} to distribute
+the \texttt{input\_slice} to its scanner-threads as \emph{shared-memory}. Once a
+scanner has accomplished its mission, it sends its result through a dedicated
+\emph{message channel} to the \emph{merger-printer}-thread.
 
 \begin{figure}[htbp]
 \centering
@@ -813,14 +810,13 @@ handle international character encodings. Does \emph{Strings­ext}
 support foreign scripts better? Is it as fast?
 
 To evaluate \emph{Strings­ext}'s capabilities to handle international scripts
-with Unicode, we choose the same input text file we used with \emph{GNU-strings}
-in the Section, \ref{subsec:test-case-strings} Figure
-\ref{fig:test-international-character-encodings}. \emph{Stringsext}'s output
-(cf. Figure \ref{fig:stringsext-s-output}) confirms that all international
-characters are found correctly.  How \emph{Strings­ext}'s formats its output
-when it operates in simultaneous multi-encoding scanning mode, is shown in
-Figure \ref{fig:reproducible-output}.
-
+with Unicode, we choose the same input text file (cf. Figure
+\ref{fig:test-international-character-encodings}) we used with
+\emph{GNU-strings} in the Section, \ref{subsec:test-case-strings}.
+\emph{Stringsext}'s output (cf. Figure \ref{fig:stringsext-s-output}) confirms
+that all international characters are found correctly.  Furthermore, Figure
+\ref{fig:reproducible-output} illustrates how \emph{Strings­ext}'s formats its
+output when it operates in simultaneous multi-encoding scanning mode.
 
 \begin{figure}[htbp]
 \centering
@@ -887,7 +883,7 @@ potentially dangerous: it may contain malicious payload targeting common
 vulnerabilities (cf. Section \ref{subsec:security1}).  Finally, in order to
 fulfil legal requirements forensic tools must be extensively tested.
 
-The present case study confirms our initial hypothesis that Rust addresses these
+The present case study confirms our initial hypothesis that Rust meets these
 requirements: Rust, as system programming language, is designed for code
 efficiency. In addtition Rust guarantees memory safety, the cause for a
 common category of vulnerabilities. It's build in unit testing feature supports
@@ -906,7 +902,7 @@ Rust components, \emph{Strings­ext} is memory safe.
 We compared the code efficiency of \emph{GNU-strings} implemented in C and
 \emph{Strings­ext} implemented in Rust: When \emph{Strings­ext} is run in
 ASCII-only mode, both produce bit-identical output. The field experiment yielded
-the expected result: even though \emph{Stringsext's} 2.4 times slower but the
+that even though \emph{Stringsext's} 2.4 times slower, the
 speed still on the same scale. However, \emph{Stringsext's} design implies much
 more complex computations, hence the result is not surprising.
 
@@ -915,7 +911,7 @@ good estimation is to compare benchmarks of small and simple programs. Too
 complex programs should be avoided for this purpose because variations of the
 programmer's skills may bias the result.  According to the ``Computer Language
 Benchmark Game'' \cite{fulgham2016} Rust and \emph{C/C++} have similar
-benchmark results.
+benchmark results, which confirms our above measurements.
 
 Forensic tools have to operate on many architectures. Here enters Rust's
 cross-compiling feature on scene.  As \emph{Rust} uses the LLVM framework as
@@ -927,35 +923,26 @@ terms of security because a whole category of potential vulnerabilities can be
 ruled out from the outset. However, memory safety does not mean bug freeness!
 Beside the security aspects discussed above, the correctness of forensic
 software is crucial (cf. Section \ref{subsec:tool-validation}). It is clear that
-the overall correctness of a program depend also on the correctness of every
+the overall correctness of a program also depend on the correctness of every
 library used.  Hence, the question arises whether the Rust ecosystem is mature
 enough to meet the ambitious requirements of forensic software. Indeed, compared
 to C, Rust's libraries are relatively young. Here again extensive unit testing
-revealed to be a helpful diagnostic method: for example of the first versions
-0.4.16 of the \texttt{kmerge} function, part of the \texttt{itertools} library
-used in \emph{Strings­ext}, reversed under rare conditions the first and second
-finding. Unit testing revealed a bug in \texttt{itertools} which was fixed some
-days after its appearance with pull request \#135 (2. Aug.  2016). So far this
-was the only time we encountered a bug in the used libraries. One
-conclusion we can draw from this experience, is that young libraries are more
-likely to have bugs than established ones. It cannot be emphasised enough that,
-diligent unit tests help to find most bugs at early state. Also, those present
-in external libraries.  However, unit testing do not help against memory safety
-related vulnerabilities, which are typical for C and C++ programs and which can
-persist in software for decades. Taking into account the benefits and drawbacks
-we largely prefer accepting the greater likelihood of manageable bugs
-related to young Rust libraries, than the uncertainty of hidden memory safety
-related vulnerabilities typical for \emph{C} and \emph{C++}.
-
-% Rust code has the reputation that it is easy to read and understand, but
-% it is hard to write. We subscribe to this point of view. Rust's biggest
-% strength is that unsafe code does not compile, can be also very
-% frustrating. Especially when you do not understand the compiler's error
-% messages. At some stage it even happened, that we run out of ideas how to
-% fix a particular problem. Fortunately, the Rust Internet community is
-% very supporting and helpful. In the meantime, also Rust's error messages
-% improved with version 1.12 and Rust's documentation is steadily updated
-% and enhanced.
+revealed to be a helpful diagnostic method: for example one of the first
+versions 0.4.16 of the \texttt{kmerge} function, part of the \texttt{itertools}
+library used in \emph{Strings­ext}, reversed under rare conditions the first and
+second finding. Unit testing revealed a bug in \texttt{itertools}. The
+programmer responded quickly. It took only some days after its appearance that
+the bug was fixed with pull request \#135. So far this was the only time we
+encountered a bug in the used libraries. One conclusion we draw from this
+experience is, that young libraries are more likely to have bugs than
+established ones. It cannot be emphasised enough that diligent unit testing
+helps to find most bugs at early state. However, unit testing do not help
+against memory safety related vulnerabilities, which are typical for C and C++
+programs and which can persist in software for decades. Taking into account
+these benefits and drawbacks we largely prefer accepting the greater likelihood
+of manageable bugs related to young Rust libraries, than the uncertainty of
+hidden memory safety related vulnerabilities typical for \emph{C} and
+\emph{C++}.
 
 Finally, we recognize the benefits of \emph{unit testing} throughout this work.
 For this reason we chose for this project the \emph{test driven development}
@@ -977,11 +964,11 @@ quickly. In addition, for a not so experienced Rust programmer it is reassuring
 to know that when a complex piece of code finally compiles, it is memory safe.
 The same applies to common settings when a programmer has to refactor existing
 code. Rust clears away doubts like ``Do I free the memory at the right moment?
-Is this pointer still valid?'' with its build in borrow checker: When it
-compiles, then it is memory safe. Furthermore, Rust is especially suitable for
-bigger projects where several programmers contribute to the same code. And this
-is particularly true when developing forensic software with its high quality
-standards.
+Is this pointer still valid?'' with its build in borrow checker: if the code
+compiles, then it must be memory safe. Furthermore, Rust is especially suitable
+for bigger projects where several programmers contribute to the same code. And
+this is particularly true when developing forensic software with its high
+quality standards.
 
 It has to be noted though that the Rust ecosystem is still very young
 and bugs in new libraries are nothing uncommon. Fortunately, the library
