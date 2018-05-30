@@ -826,37 +826,6 @@ output when it operates in simultaneous multi-encoding scanning mode.
 \end{figure}
 
 
-\iffalse
-\subsection{Deterministic reproducible output}\label{_reproducible_output}
-
-Concurrent computing gives no guarantee in which order partial-output is
-available. With regard to \emph{Strings­ext} this means that the order in which
-the different scanners report their results, depend on racing conditions which
-are not predictable. In order to illustrate this phenomenon, the Figure
-\ref{fig:non-reproducible-output} shows the merged output of \emph{Strings­ext}.
-It is not surprising that for example at position \texttt{47} and \texttt{c47}
-the scanners \emph{ASCII} and \texttt{UTF-8} find the same strings at the same
-location since the ASCII-encoding is a subset of the UTF-8 encoding. Whilst at
-position \texttt{47} the output of the UTF-8 scanner is first listed, at
-position \texttt{c77} the output of the ASCII-scanner is printed first! Even
-though the output of \emph{Strings­ext} is always correct, the order in which
-the results are listed changes unpredictably!
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.6\linewidth]{images/non-reproducible-output.png}
-\caption{Output of non-deterministic algorithm}
-\label{fig:non-reproducible-output}
-\end{figure}
-
-The retained solution is to extend the sort criteria by which the
-merger thread orders the findings. Now it proceeds as follows: first it sorts
-finding by their offsets and then by the encoder name that has reported the
-finding. The Figure \ref{fig:reproducible-output} shows the result.  Please note
-that for all identical positions the ASCII-scanner result is always listed
-first.
-
-\fi
 
 \begin{figure}[htbp]
 \centering
