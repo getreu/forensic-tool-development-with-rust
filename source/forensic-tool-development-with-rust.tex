@@ -219,29 +219,32 @@ evidence (diagnostic value) that is relative to the hypotheses tested.} It
 embodies any ``item of interest that helps an investigation move forward.''
 \cite[p. 125]{harichandran2016}\footnote{Cf. Harichandran \cite[p.
 131]{harichandran2016} who proposed a more formal definition: A \emph{Curated
-(digital) Forensic Artefact (CuFA)} ''must have evidentiary value in a legal
+(digital) Forensic Artefact (CuFA)} ``must have evidentiary value in a legal
 proceeding, must be created by an external force/artificially, must have
 antecedent temporal relation/importance and must be exceptional (based on
-accident, rarity, or personal interest)[...]``.}.
+accident, rarity, or personal interest)[...]''.}.
 
-Forensic examiners, the law enforcement personnel who deal with 
-digital evidence, face inter alia two challenges: to collect and to 
-preserve the huge amount of data that may be related to a crime and to 
-search and detect artefacts in the collected data.
-The latter aspect implies the so called \emph{string search} which is useful
-when dealing with unknown binary data. Most binary data contain human readable
-character sequences called strings. A very commonly used program to extract
-strings from a binary data is the so called \emph{GNU-strings} program. The
-software tool \emph{Stringsext}, developed in this present work, is made for
-same purpose. The new development is designed to overcome some of
-\emph{GNU-strings} shortcomings. Where possible, it maintains
-\emph{GNU-strings'} user-interface.
+Forensic examiners, the law enforcement personnel who deal with digital
+evidence, face inter alia two challenges: to collect and to preserve the huge
+amount of data that may be related to a crime and to search and detect artefacts
+in the collected data.  The latter aspect implies the so called \emph{string
+search} which is useful when dealing with unknown binary data. Most binary data
+contain human readable character sequences called strings. A very commonly used
+program to extract strings from a binary data is the so called
+\emph{GNU-strings} program.  Although still widely used, \emph{GNU-strings} has
+only a very rudimentary support for multi-byte encodings such as Unicode.
+Furthermore, it was subject several to memory safety vulnerabilities which
+exclude the handling of potentially harmful forensic data. The software tool
+\emph{Stringsext}, developed in this present work, is made for same purpose. The
+new development is designed to overcome both shortcomings.  Where possible, it
+maintains \emph{GNU-strings'} user-interface. 
 
-In the following section we analyse general tool requirements in digital 
-forensics. Together with the shortcomings of the original  
-\emph{GNU-strings} tool, it becomes obvious that the C++ programming language
-does not satisfy the indispensable security requirements in the field of
-forensic software. 
+In the following section we analyse general tool requirements in digital
+forensics. Together with the shortcomings of the original  \emph{GNU-strings}
+tool, it becomes obvious that the C++ programming language does not satisfy the
+indispensable security requirements in the field of forensic software. The
+remaining sections show how the Rust-language mitigates them and what should be
+observed during implementation. 
 
 
 
@@ -285,7 +288,7 @@ into the searching domain (where), the searching mode (how) and the searching
 target (what). This breakdown of forensic functions into detailed categories
 allows to decouple the validation procedure from the implementation of the
 forensic tool itself. Based on this categorisation, independent test
-environments are set up for each specific function. For example a
+environments are set up for each specific function. For example, a
 test may certify if the software is able to run a fuzzy search for strings in
 the unallocated disk space.
 
@@ -303,7 +306,7 @@ leads us to the main motivation and requirement of \emph{Strings­ext}:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{images/03-The_search_target_mapping.jpg}
-	\caption{The search target mapping \protect\cite[p. 17]{beckett2007}}
+	\caption{The search target mapping, cf. \protect\cite[p. 8]{beckett2007}}
 	\label{the-search-target-mapping}
 \end{figure}
 
@@ -333,7 +336,7 @@ to guarantee maximum security and correctness of the developed tool.
 ``Make it hard for them to find you and impossible for them to prove they found
 you''. With this concise word Berinato\cite{berinato2007} characterises the
 relation between the criminal and the forensic investigator. In digital
-forensics this "hide-and-seek" game might soon take a new dimension: Eggendorfer
+forensics this ``hide-and-seek'' game might soon take a new dimension: Eggendorfer
 \cite{eggendorfer2016} stresses with good reasons that forensic tools are
 software too and therefor vulnerable to attacks: A vulnerability found in 2017
 in a common forensic tool \emph{EnCase Forensic Imager} demonstrates exemplary
@@ -407,7 +410,7 @@ Chapter \ref{rust-lang} shows how Rust meets the above requirements by its
 \section{\emph{GNU-strings}' shortcomings in forensics}
 \label{sec:strings-and-forensics}
 
-This chapter first analyses \emph{GNU-strings'} limitations concerning
+This section first analyses \emph{GNU-strings'} limitations concerning
 multi-byte-encodings and international scripts. Based
 upon this we derive a set of additional requirements for \emph{Strings­ext}.
 
@@ -871,9 +874,9 @@ Rust components, \emph{Strings­ext} is memory safe.
 We compared the code efficiency of \emph{GNU-strings} implemented in C and
 \emph{Strings­ext} implemented in Rust: When \emph{Strings­ext} is run in
 ASCII-only mode, both produce bit-identical output. The field experiment yielded
-that even though \emph{Stringsext's} 2.4 times slower, the
-speed still on the same scale. However, \emph{Stringsext's} design implies much
-more complex computations, hence the result is not surprising.
+that even though \emph{Stringsext's} 2.4 times slower, the speed is within the
+same order of magnitude. However, \emph{Stringsext's} design implies much more
+complex computations, hence the result is not surprising.
 
 How about the efficiency of Rust's abstractions and its overall performance? A
 good estimation is to compare benchmarks of small and simple programs. Too
@@ -953,75 +956,6 @@ where \emph{GNU-strings} fails: it allows finding UTF-16 multi-byte
 characters in memory images and supports other multi-byte encodings like
 \emph{big5} or \emph{koi8-r}. 
 
+\bibliography{references}
 \bibliographystyle{splncs03}
-%\bibliography{references}
-
-
-\begin{thebibliography}{10}
-\providecommand{\url}[1]{\texttt{#1}}
-\providecommand{\urlprefix}{URL }
-
-\bibitem{beckett2007}
-Beckett, J., Slay, J.: Digital forensics: {{Validation}} and verification in a
-  dynamic work environment. pp. 266a--266a. {IEEE} (2007)
-
-\bibitem{berinato2007}
-Berinato, S.: The {{Rise}} of {{Anti Forensics}}. (Aug 2007),
-  \url{http://www.csoonline.com/article/2122329}
-
-\bibitem{secconsult2017}
-Consult, S.: Chainsaw of {{Custody}}: {{Manipulating}} forensic evidence the
-  easy way (May 2017),
-  \url{http://blog.sec-consult.com/2017/05/chainsaw-of-custody-manipulating.html}
-
-\bibitem{mitrecorporation2016}
-Corporation, M.: {{CWE}} - {{Common Weakness Enumeration}}, a
-  {{Community}}-{{Developed Dictionary}} of {{Software Weakness Types}} (2016),
-  \url{https://cwe.mitre.org/}
-
-\bibitem{craiger2006}
-Craiger, P., Swauger, J., Marberry, C., Hendricks, C.: Validation of digital
-  forensics tools. Digital crime and forensic science in cyberspace. Hershey,
-  PA: Idea Group Inc pp. 91--105 (2006)
-
-\bibitem{cygnussolutions1999}
-Cygnus-Solutions: Log message: Sourceware import (Mar 1999),
-  \url{https://sourceware.org/ml/binutils-cvs/1999-q2/msg00000.html}
-
-\bibitem{eggendorfer2016}
-Eggendorfer, T.: {{IT}} forensics. {{Why}} post-mortem is dead. {{Cyber
-  Security Summer School}} 2016: {{Digital Forensics}}, {{Technology}} and
-  {{Law}} (Jul 2016)
-
-\bibitem{fulgham2016}
-Fulgham, B., Gouy, I.: Computer {{Language Benchmarks Game}}: {{C}}++
-  versus~{{Rust}} (Oct 2016), \url{http://benchmarksgame.alioth.debian.org}
-
-\bibitem{getreu2017a}
-Getreu, J.: Stringsext, a {{GNU Strings Alternative}} with
-  {{Multi}}-{{Byte}}-{{Encoding Support}} (Sep 2017),
-  \url{https://github.com/getreu/stringsext}
-
-\bibitem{getreu2017}
-Getreu, J.: Forensic-{{Tool Development}} with {{Rust}}. Master's thesis, Tallinn
-  University of Technology, Tallinn (Mar 2017),
-  \url{http://blog.getreu.net/\_downloads/forensic-tool-development-with-rust.pdf}
-
-\bibitem{harichandran2016}
-Harichandran, V.S., Walnycky, D., Baggili, I., Breitinger, F.: {{CuFA}}: {{A}}
-  more formal definition for digital forensic artifacts. Digital Investigation
-  18,  S125--S137 (2016)
-
-\bibitem{the-rust-project-developers2017}
-{The-Rust-Project-Developers}: The {{Rustonomicon}} (2017),
-  \url{https://doc.rust-lang.org/nomicon/}
-
-\bibitem{zalewski2014}
-Zalewski, M.: {{PSA}}: Don't run 'strings' on untrusted files
-  ({{CVE}}-2014-8485) (Oct 2014),
-  \url{http://lcamtuf.blogspot.com.ee/2014/10/psa-dont-run-strings-on-untrusted-files.html}
-
-\end{thebibliography}
-
-
 \end{document}
