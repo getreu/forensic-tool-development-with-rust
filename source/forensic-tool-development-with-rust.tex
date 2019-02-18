@@ -780,31 +780,6 @@ as concurrent batch processing of multi-byte character streams revealed to be
 sufficiently complex, thus allowing us to deduce general recommendations for
 forensic-tool development.
 
-
-
-
-\subsection{Concurrency}\label{_concurrency}
-
-The Figure \ref{fig:data-processing-and-threads} shows the data flow in
-\emph{Strings­ext}. All \emph{scanner} instances as well as the
-\emph{merger-printer} are designed as threads. Rust uses OS-level threads and
-its type and ownership model guarantees the absence of data races.  Rust
-supports by default two models of inter-thread communication: shared memory
-and message channels.
-
-
-\emph{Stringsext} imports the crate \texttt{scoped\_threadpool} to distribute
-the \texttt{input\_slice} to its scanner-threads as \emph{shared-memory}. Once a
-scanner has accomplished its mission, it sends its result through a dedicated
-\emph{message channel} to the \emph{merger-printer}-thread.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{images/data-processing-and-thread.png.png}
-\caption{Data processing and threads}
-\label{fig:data-processing-and-threads}
-\end{figure}
-
 \subsection{Encoding support}
 
 The initial motivation for developing \emph{Strings­ext} were the
@@ -820,6 +795,18 @@ with Unicode, we choose the same input text file (cf. Figure
 that all international characters are found correctly.  Furthermore, Figure
 \ref{fig:reproducible-output} illustrates how \emph{Strings­ext}'s formats its
 output when it operates in simultaneous multi-encoding scanning mode.
+
+\emph{Strings­ext}'s unique Unicode range restriction feature has shown itself
+to be of use in practise: The Microsoft-Windows operating system handles Unicode
+characters in memory as 2 byte UTF-16 words. Thus, it is a common usecase in
+forensics to search for foreign UTF-16 encoded scripts in memory images.
+Unfortunately scanning for strings in UTF-16 is difficult, because almost every
+random byte combination is assigned to a valid Unicode character. This leads to
+many false positives and the result becomes unusable.  The offered solution by
+\emph{Strings­ext} is to allow the user to restrict the Unicode-range when
+searching. For example the Unicode-range \verb|U+400-U+7FF| captures only
+strings in Cyrillic, Armenian, Hebrew, Arabic and Syriac. This feature is
+particularly useful when dealing with UTF-16 in memory images.
 
 \begin{figure}[htbp]
 \centering
@@ -838,6 +825,53 @@ output when it operates in simultaneous multi-encoding scanning mode.
 \label{fig:reproducible-output}
 \end{figure}
 
+
+
+\subsection{Concurrency}\label{_concurrency}
+
+The Figure \ref{fig:data-processing-and-threads} shows the data flow in
+\emph{Strings­ext}. All \emph{scanner} instances as well as the
+\emph{merger-printer} are designed as threads. Rust uses OS-level threads and
+its type and ownership model guarantees the absence of data races.  Rust
+supports by default two models of inter-thread communication: shared memory and
+message channels. 
+
+
+\emph{Stringsext} first cuts the input stream into overlapping slices of shared
+read-only memory pages, which are then fed as input to the different
+\emph{scanner} threads. Each scanner operates independently in batch.  It runs
+through the input-slice, searches for valid string sequences, collects them in a
+list and finally sends the list to a \emph{merger-printer}-thread though a
+dedicated \emph{message channel}. This thread collects all lists from the
+different scanners and merges them into the final output stream.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{images/data-processing-and-thread.png.png}
+\caption{Data processing and threads}
+\label{fig:data-processing-and-threads}
+\end{figure}
+
+
+\subsection{Algorithm}
+
+Batch processing of multi⁻byte character streams turned out to be more difficult
+than expected. As we want to keep the scanning process as stateless as
+possible, we introduced overlapping windows: This allows to read over the memory
+page's edge in case a found string terminates in the next memory page.
+However, strings can be so long that you can't but cut them somewhere. In this
+case we need to make sure not to cut in the middle of a multi-byte character
+which can be up to 6 bytes long. As a result a scanner is not completely 
+stateless: between each scanner run the position where the last run stopped 
+\verb|offset| and a flag indicating the forced cut of a string 
+\verb|completes_last_string| is passed. 
+
+A \emph{scanner} decodes the input stream in two phases: first it uses the 
+\emph{Encoding}-crate library to identify valid code sequences and transcodes
+them into valid UTF-8 strings. Such a valid string may contain non-graphical and
+graphical characters. As we are only interested in the latter, a second filter
+extracts substrings while meeting additional criteria, e.g. minimum length or
+Unicode-range restriction rules.
 
 
 \section{Development process evaluation}\label{_development_process_evaluation}
