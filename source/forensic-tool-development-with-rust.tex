@@ -960,6 +960,21 @@ structure of the programmer team.
 
 \section{Conclusion}
 
+We have shown that forensic tool development is subject to special requirements
+in terms of memory safety and code efficiency. Both are inherent properties of
+the used programming language and its ecosystem. Even though the language design
+of C and C++ allows generating very efficient code, there is no guaranty that
+the compiled code is memory safe. Not only that the lack of memory safety is one
+of the principal causes for software vulnerabilities, forensic software is
+particularly exposed to such risks as it processes binary data of unknown origin
+containing all kinds of malware.  As an alternative to C and C++, the relatively
+new programming language Rust offers guarantied memory safety by design, while
+being as fast as C. The match-making of general forensic tool requirements and
+the theoretical properties of the Rust programming language makes it an ideal
+alternative to the hitherto dominant programming language C++.  But a general
+recommendation for a shift in programming practises can not be deduced from
+theoretical considerations alone: this is why we developed the
+\emph{Stringsext}-Software as use case. 
 
 The use case ``development of the \emph{Stringsext}-tool'' shows that Rust was a
 good choice for the present project, even though batch processing of multi-bytes
