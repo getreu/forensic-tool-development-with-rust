@@ -347,7 +347,7 @@ the pertinence of the risk \cite{secconsult2017}:
     used for Linux servers) on a storage device, an attacker could — if the
     device were ever to be analysed using EnCase Forensic Imager — take over an
     investigator's machine. When the investigator tries to read the device,
-    EnCase Forensic Imager crashes - unbeknownst to the investigator, however, a
+    EnCase Forensic Imager crashes — unbeknownst to the investigator, however, a
     lot more is happening. Through a buffer overflow security flaw, EnCase
     Forensic Imager can be tricked into executing data read from the storage
     device. Afterwards the code provided by the attacker has full control of the
@@ -389,7 +389,7 @@ forensic software is often programmed in C or C++. But not only the programming
 language matters: Efficient code also requires carefully chosen abstractions,
 efficient algorithms avoiding unnecessary data-copies and program-loops.
 Concerning the choice of the programming language we define the following
-requirements: The programming language must
+requirements: The programming language should:
 
 \begin{itemize}
 \item
@@ -397,7 +397,7 @@ requirements: The programming language must
 \item
   offer zero cost abstractions,
 \item
-  have no or minimal runtime.
+  have no or a minimal runtime system.
 \end{itemize}
 
 
