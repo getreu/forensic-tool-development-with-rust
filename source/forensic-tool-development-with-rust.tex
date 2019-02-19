@@ -158,7 +158,7 @@ Estonia}
 
 \begin{abstract}
 The study evaluates the suitability of the \emph{Rust} ecosystem
-for forensic tool development.  As a case study a forensic tool
+for forensic tool development.  As a case study, a forensic tool
 named \emph{Strings­ext}\cite{getreu2017a}\cite{getreu2017} is developed. 
 Starting from analysing the specific requirements of forensic software
 in general and those of the present case study, all stages of the software
@@ -798,14 +798,14 @@ output when it operates in simultaneous multi-encoding scanning mode.
 
 \emph{Strings­ext}'s unique Unicode range restriction feature has shown itself
 to be of use in practise: The Microsoft-Windows operating system handles Unicode
-characters in memory as 2 byte UTF-16 words. Thus, it is a common usecase in
-forensics to search for foreign UTF-16 encoded scripts in memory images.
-Unfortunately scanning for strings in UTF-16 is difficult, because almost every
-random byte combination is assigned to a valid Unicode character. This leads to
-many false positives and the result becomes unusable.  The offered solution by
-\emph{Strings­ext} is to allow the user to restrict the Unicode-range when
-searching. For example the Unicode-range \verb|U+400-U+7FF| captures only
-strings in Cyrillic, Armenian, Hebrew, Arabic and Syriac. This feature is
+characters in memory as 2 byte UTF-16 words. Thus, searching for UTF-16 encoded
+strings in memory images is common practise in forensics.  This is more
+difficult as expected, as almost every random byte combination is assigned to a
+valid Unicode code point. Without further measures such a search leads to many
+false positives and unusable results.  The offered solution by
+\emph{Strings­ext} allows the user to restrict the Unicode-range: 
+For example, the Unicode-range \verb|U+400-U+7FF| captures
+only strings in Cyrillic, Armenian, Hebrew, Arabic and Syriac. This feature is
 particularly useful when dealing with UTF-16 in memory images.
 
 \begin{figure}[htbp]
@@ -838,7 +838,7 @@ message channels.
 
 
 \emph{Stringsext} first cuts the input stream into overlapping slices of shared
-read-only memory pages, which are then fed as input to the different
+read-only memory pages, which are then fed into the different
 \emph{scanner} threads. Each scanner operates independently in batch.  It runs
 through the input-slice, searches for valid string sequences, collects them in a
 list and finally sends the list to a \emph{merger-printer}-thread though a
@@ -866,12 +866,12 @@ between each scanner run the position where the last run stopped \verb|offset|
 and a flag indicating the forced cut of a string \verb|completes_last_string| is
 passed. 
 
-A \emph{scanner} decodes the input stream in two phases: first it uses the 
+The \emph{scanner} decodes the input stream in two phases: first it uses the
 \emph{Encoding}-crate library to identify valid code sequences and transcodes
 them into valid UTF-8 strings. Such a valid string may contain non-graphical and
 graphical characters. As we are only interested in the latter, a second filter
-extracts substrings while meeting additional criteria, e.g. minimum length or
-Unicode-range restriction rules.
+extracts graphical substrings while meeting additional criteria, e.g. minimum
+length or Unicode-range restriction rules.
 
 
 \section{Development process evaluation}\label{_development_process_evaluation}
