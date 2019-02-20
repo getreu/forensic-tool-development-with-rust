@@ -964,7 +964,7 @@ in terms of memory safety and code efficiency. Both are inherent properties of
 the used programming language and its ecosystem. Even though the language design
 of C and C++ allows generating very efficient code, there is no guaranty that
 the compiled code is memory safe. Not only that the lack of memory safety is one
-of the principal causes for software vulnerabilities, forensic software is
+of the principal causes for most software vulnerabilities, forensic software is
 particularly exposed to such risks as it processes binary data of unknown origin
 containing all kinds of malware.  As an alternative to C and C++, the relatively
 new programming language Rust offers guarantied memory safety by design, while
@@ -984,8 +984,7 @@ quickly. In addition, for a not so experienced Rust programmer it is reassuring
 to know that when a complex piece of code finally compiles, it is memory safe.
 The same applies to common settings when a programmer has to refactor existing
 code. Rust clears away doubts like ``Do I free the memory at the right moment?
-Is this pointer still valid?'' with its build in borrow checker: if the code
-compiles, then it must be memory safe. Furthermore, Rust is especially suitable
+Is this pointer still valid?'' Furthermore, Rust is especially suitable
 for bigger projects where several programmers contribute to the same code. And
 this is particularly true when developing forensic software with its high
 quality standards.
