@@ -862,9 +862,8 @@ edge in case a found string terminates in the next memory page.  However,
 strings can be so long that you can't but cut them somewhere. In this case we
 need to make sure not to cut in the middle of a multi-byte character which can
 be up to 6 bytes long. As a result a scanner is not completely stateless:
-between each scanner run the position where the last run stopped \verb|offset|
-and a flag indicating the forced cut of a string \verb|completes_last_string| is
-passed. 
+between each scanner run the position where the last run stopped and a flag
+indicating the forced cut of a string is passed. 
 
 The \emph{scanner} decodes the input stream in two phases: first it uses the
 \emph{Encoding}-crate library to identify valid code sequences and transcodes
